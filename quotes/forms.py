@@ -1,0 +1,46 @@
+from django import forms
+from .models import Quote
+
+class CreateQuoteForm(forms.ModelForm):
+    class Meta:
+        model = Quote
+        fields = [
+            'quote_num',
+            'name',
+            'vendor',
+            'vendor_part_number',
+            'category',
+            'image_url',
+            'moq',
+            'package',
+            'production_time',
+            'description',
+            'duty_percent',
+            'tariff_percent',
+            'imprint_cost',
+            'customer_name',
+            'sales_rep',
+            'carton_qty',
+            'carton_weight',
+            'carton_width',
+            'carton_length',
+            'carton_height',
+            'imprint_location',
+            'imprint_method',
+            'imprint_dimension',
+            'quantity1',
+            'quantity2',
+            'quantity3',
+            'quantity4',
+            'quantity5',
+            'qty1_cost',
+            'qty2_cost',
+            'qty3_cost',
+            'qty4_cost',
+            'qty5_cost',
+            'qty1_price',
+            'qty2_price',
+            'qty3_price',
+            'qty4_price',
+            'qty5_price',
+        ]
