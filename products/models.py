@@ -10,6 +10,7 @@ class Product(models.Model):
     moq = models.IntegerField()
     package = models.CharField(max_length=50)
     production_time = models.CharField(max_length=50)
+    estimated_launch = models.CharField(max_length=50)
     description = models.TextField(max_length=500)
     duty_percent = models.DecimalField(max_digits=10, decimal_places=2)
     tariff_percent = models.DecimalField(max_digits=10, decimal_places=2)
