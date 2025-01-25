@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "products",
     "users",
     "quotes",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
