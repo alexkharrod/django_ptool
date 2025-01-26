@@ -1,0 +1,124 @@
+{%extends "base.html"%}
+{%block title%}View Quote{%endblock%}
+{%block content%}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Quote Details</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-header text-white bg-primary">
+            <h4 class="mb-0">Quote #: {{ quote.quote_num }}</h4>
+        </div>
+        <div class="card-body">
+            <!-- General Information -->
+            <h5 class="text-muted">General Information</h5>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Name:</strong> {{ quote.name }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Created On:</strong> {{ quote.date_created|date:"M d, Y" }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Sales Representative:</strong> {{ quote.sales_rep }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Customer Name:</strong> {{ quote.customer_name }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Sales Representative:</strong> {{ quote.sales_rep }}
+                </div>
+               
+            </div>
+
+            <!-- Product Information -->
+            <h5 class="text-muted mt-4">Product Information</h5>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>MOQ:</strong> {{ quote.moq }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Package Type:</strong> {{ quote.package }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Production Time:</strong> {{ quote.production_time }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Description:</strong> {{ quote.description }}
+                </div>
+            </div>
+
+            <!-- Pricing Information -->
+            <h5 class="text-muted mt-4">Pricing Information</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Quantity</th>
+                        <th>Cost</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ quote.quantity1 }}</td>
+                        <td>{{ quote.qty1_cost }}</td>
+                        <td>{{ quote.qty1_price }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ quote.quantity2 }}</td>
+                        <td>{{ quote.qty2_cost }}</td>
+                        <td>{{ quote.qty2_price }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ quote.quantity3 }}</td>
+                        <td>{{ quote.qty3_cost }}</td>
+                        <td>{{ quote.qty3_price }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ quote.quantity4 }}</td>
+                        <td>{{ quote.qty4_cost }}</td>
+                        <td>{{ quote.qty4_price }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ quote.quantity5 }}</td>
+                        <td>{{ quote.qty5_cost }}</td>
+                        <td>{{ quote.qty5_price }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Master Carton Information -->
+            <h5 class="text-muted mt-4">Master Carton Information</h5>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <strong>Carton Quantity:</strong> {{ quote.carton_qty }}
+                </div>
+                <div class="col-md-3">
+                    <strong>Weight:</strong> {{ quote.carton_weight }} kg
+                </div>
+                <div class="col-md-2">
+                    <strong>Width:</strong> {{ quote.carton_width }} cm
+                </div>
+                <div class="col-md-2">
+                    <strong>Length:</strong> {{ quote.carton_length }} cm
+                </div>
+                <div class="col-md-2">
+                    <strong>Height:</strong> {{ quote.carton_height }} cm
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="text-end mt-4">
+                <a href="{% url 'quotes' %}" class="btn btn-secondary">Back to Quotes</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}

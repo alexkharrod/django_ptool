@@ -14,6 +14,11 @@ def home(request):
     return render(request, "index.html")
 
 
+def view_quote(request, pk):
+    quote = Quote.objects.get(pk=pk)
+    return render(request, "view_quote.html", {"quote": quote})
+
+
 def quotes(request):
     quotes = Quote.objects.all().order_by("-date_created")
     paginator = Paginator(quotes, 25)
@@ -29,9 +34,11 @@ def create_quote(request):
     if request.method == "POST":
         form = CreateQuoteForm(request.POST)
         if form.is_valid():
-            form.save()
+            quote = form.save()
             messages.success(request, "Quote created successfully!")
-            return redirect("home")  # Replace with your desired redirect view
+            return redirect(
+                "view_quote", pk=quote.pk
+            )  # Replace with your desired redirect view
         else:
             messages.error(
                 request,
