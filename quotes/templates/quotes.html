@@ -14,6 +14,7 @@
       </tr>
     </thead>
     <tbody>
+
         {% for quote in quotes %}
             <tr>
                 <td>{{ quote.quote_num }}</td>
@@ -23,6 +24,8 @@
                 <td>{{ quote.date_created|date:"M d, Y" }}</td>
             </tr>
         {% endfor %}
+
+
    
      
     </tbody>

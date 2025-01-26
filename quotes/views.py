@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.utils.timezone import now
 
@@ -14,7 +15,13 @@ def home(request):
 
 
 def quotes(request):
-    quotes = Quote.objects.all()
+    quotes = Quote.objects.all().order_by("-date_created")
+    paginator = Paginator(quotes, 25)
+
+    # Get the page number from the request
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(request, "quotes.html", {"quotes": quotes})
 
 
