@@ -16,6 +16,7 @@ def home(request):
 
 def view_quote(request, pk):
     quote = Quote.objects.get(pk=pk)
+    print(quote.image_url)  # In your view or Django shell
     return render(request, "view_quote.html", {"quote": quote})
 
 

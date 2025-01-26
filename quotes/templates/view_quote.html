@@ -5,46 +5,48 @@
     <h1 class="text-center mb-4">Quote Details</h1>
 
     <div class="card shadow-sm">
-        <div class="card-header text-white bg-primary">
-            <h4 class="mb-0">Quote #: {{ quote.quote_num }}</h4>
+        <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+            <h4 class="mb-0 split-para">Quote # {{ quote.quote_num }}</h4>
+            <span>{{ quote.date_created|date:"M d, Y" }}</span>
         </div>
         <div class="card-body">
-            <!-- General Information -->
-            <h5 class="text-muted">General Information</h5>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <strong>Name:</strong> {{ quote.name }}
+            <div class="row">
+                <!-- General Information -->
+                <div class="col-md-8">
+                    <h5 class="text-muted">General Information</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Name:</strong> {{ quote.name }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Customer Name:</strong> {{ quote.customer_name }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Sales Representative:</strong> {{ quote.sales_rep }}
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <strong>Created On:</strong> {{ quote.date_created|date:"M d, Y" }}
+
+                <!-- Image Section -->
+                <div class="col-md-4 text-end">
+                    <img src="{{ quote.image_url }}" alt="Product Image" class="img-fluid rounded" style="max-width: 500px; height: auto;">
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <strong>Sales Representative:</strong> {{ quote.sales_rep }}
-                </div>
-                <div class="col-md-6">
-                    <strong>Customer Name:</strong> {{ quote.customer_name }}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <strong>Sales Representative:</strong> {{ quote.sales_rep }}
-                </div>
-               
             </div>
 
             <!-- Product Information -->
-            <h5 class="text-muted mt-4">Product Information</h5>
+            <h5 class="text-muted">Product Information</h5>
             <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Imprint Method:</strong> {{ quote.imprint_method }}
+                </div>
                 <div class="col-md-6">
                     <strong>MOQ:</strong> {{ quote.moq }}
                 </div>
                 <div class="col-md-6">
                     <strong>Package Type:</strong> {{ quote.package }}
                 </div>
-            </div>
-            <div class="row mb-3">
                 <div class="col-md-6">
                     <strong>Production Time:</strong> {{ quote.production_time }}
                 </div>
@@ -59,36 +61,47 @@
                 <thead>
                     <tr>
                         <th>Quantity</th>
-                        <th>Cost</th>
                         <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Always show the first quantity -->
                     <tr>
                         <td>{{ quote.quantity1 }}</td>
-                        <td>{{ quote.qty1_cost }}</td>
+
                         <td>{{ quote.qty1_price }}</td>
                     </tr>
+            
+                    <!-- Use conditional checks for subsequent quantities -->
+                    {% if quote.quantity2 > quote.quantity1 %}
                     <tr>
                         <td>{{ quote.quantity2 }}</td>
                         <td>{{ quote.qty2_cost }}</td>
                         <td>{{ quote.qty2_price }}</td>
                     </tr>
+                    {% endif %}
+            
+                    {% if quote.quantity3 > quote.quantity2 %}
                     <tr>
                         <td>{{ quote.quantity3 }}</td>
-                        <td>{{ quote.qty3_cost }}</td>
+
                         <td>{{ quote.qty3_price }}</td>
                     </tr>
+                    {% endif %}
+            
+                    {% if quote.quantity4 > quote.quantity3 %}
                     <tr>
                         <td>{{ quote.quantity4 }}</td>
-                        <td>{{ quote.qty4_cost }}</td>
                         <td>{{ quote.qty4_price }}</td>
                     </tr>
+                    {% endif %}
+            
+                    {% if quote.quantity5 > quote.quantity4 %}
                     <tr>
                         <td>{{ quote.quantity5 }}</td>
-                        <td>{{ quote.qty5_cost }}</td>
                         <td>{{ quote.qty5_price }}</td>
                     </tr>
+                    {% endif %}
                 </tbody>
             </table>
 
