@@ -12,8 +12,6 @@ class Product(models.Model):
     production_time = models.CharField(max_length=50)
     estimated_launch = models.CharField(max_length=50)
     description = models.TextField(max_length=500)
-    duty_percent = models.DecimalField(max_digits=10, decimal_places=2)
-    tariff_percent = models.DecimalField(max_digits=10, decimal_places=2)
 
     # Master Carton info:
     carton_qty = models.IntegerField()
@@ -27,6 +25,12 @@ class Product(models.Model):
     imprint_method = models.CharField(max_length=50)
     imprint_dimension = models.CharField(max_length=50)
 
+    # Freight Costs
+    air_freight = models.DecimalField(max_digits=10, decimal_places=2)
+    ocean_freight = models.DecimalField(max_digits=10, decimal_places=2)
+    duty_percent = models.DecimalField(max_digits=10, decimal_places=2)
+    tariff_percent = models.DecimalField(max_digits=10, decimal_places=2)
+
     # To add checkboxes:
     price_list = models.BooleanField(default=False)
     product_list = models.BooleanField(default=False)
@@ -34,3 +38,6 @@ class Product(models.Model):
     npds_done = models.BooleanField(default=False)
     qb_added = models.BooleanField(default=False)
     published = models.BooleanField(default=False)
+
+    # Product Status
+    status = models.CharField(max_length=50)
