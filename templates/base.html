@@ -18,7 +18,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{% url 'quotes' %}">
                             <i class="bi bi-file-text me-1"></i>Quotes
                         </a>
                     </li>
@@ -27,14 +27,7 @@
                             <i class="bi bi-box-seam me-1"></i>Products
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <form action="#" method="POST">
-
-                            <button type="submit" class="nav-link btn btn-link">
-                                <i class="bi bi-box-arrow-right me-1"></i>Logout
-                            </button>
-                        </form>
-                    </li>
+                   
                     <li class="nav-item">
                         {% if user.is_authenticated and user.is_staff %}
                         <li class="nav-item">
@@ -48,16 +41,14 @@
 
                         <div class="dropdown">
                             <button class="btn btn-link nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                {{ current_user.email }}
+                                {{ user.get_full_name|default:user.email }}
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">User Management</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
+                                <li><form action="{% url 'logout' %}" method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item">Logout</button>
                                     <form action="#" method="POST">
-
-                                        <button type="submit" class="dropdown-item">Logout</button>
                                     </form>
                                 </li>
                             </ul>

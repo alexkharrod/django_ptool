@@ -1,9 +1,9 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.utils.timezone import now
-from .models import Quote
 
 from .forms import CreateQuoteForm
+from .models import Quote
 
 # Create your views here.
 
@@ -11,6 +11,11 @@ from .forms import CreateQuoteForm
 # home view
 def home(request):
     return render(request, "index.html")
+
+
+def quotes(request):
+    quotes = Quote.objects.all()
+    return render(request, "quotes.html", {"quotes": quotes})
 
 
 def create_quote(request):

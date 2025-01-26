@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Quotes{% endblock %}
+
+{% block content %}
+
+<h1>Quotes</h1><table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Quote Number</th>
+        <th scope="col">Quote Name</th>
+        <th scope="col">Rep</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Date Created</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for quote in quotes %}
+            <tr>
+                <td>{{ quote.quote_num }}</td>
+                <td>{{ quote.name }}</td>
+                <td>{{ quote.rep }}</td>
+                <td>{{ quote.customer }}</td>
+                <td>{{ quote.date_created|date:"M d, Y" }}</td>
+            </tr>
+        {% endfor %}
+   
+     
+    </tbody>
+  </table>
+  <a href="{%url 'create_quote' %}" class="btn btn-primary me-2">New Quote</a>
+{% endblock %}
