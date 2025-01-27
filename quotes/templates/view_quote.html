@@ -28,8 +28,15 @@
                             <strong>Sales Representative:</strong> {{ quote.sales_rep }}
                         </div>
                     </div>
+                    <!-- Description Field -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <strong>Specifications</strong>
+                            <p class="mt-2 text-wrap specs">{{ quote.description }}</p>
+                        </div>
+                    </div>
                 </div>
-
+            
                 <!-- Image Section -->
                 <div class="col-md-4 text-end">
                     <img src="{% static 'images/' %}{{quote.image_url }}" alt="Product Image" class="img-fluid rounded" style="max-width: 400px; height: auto;">
@@ -51,9 +58,6 @@
                 <div class="col-md-6">
                     <strong>Production Time:</strong> {{ quote.production_time }}
                 </div>
-                <div class="col-md-6">
-                    <strong>Description:</strong> {{ quote.description }}
-                </div>
             </div>
 
             <!-- Pricing Information -->
@@ -69,35 +73,32 @@
                     <!-- Always show the first quantity -->
                     <tr>
                         <td>{{ quote.quantity1 }}</td>
-
                         <td>{{ quote.qty1_price }}</td>
                     </tr>
-            
+                
                     <!-- Use conditional checks for subsequent quantities -->
-                    {% if quote.quantity2 > quote.quantity1 %}
+                    {% if quote.quantity2 and quote.quantity2 > quote.quantity1 %}
                     <tr>
                         <td>{{ quote.quantity2 }}</td>
-                        <td>{{ quote.qty2_cost }}</td>
                         <td>{{ quote.qty2_price }}</td>
                     </tr>
                     {% endif %}
-            
-                    {% if quote.quantity3 > quote.quantity2 %}
+                
+                    {% if quote.quantity3 and quote.quantity3 > quote.quantity2 %}
                     <tr>
                         <td>{{ quote.quantity3 }}</td>
-
                         <td>{{ quote.qty3_price }}</td>
                     </tr>
                     {% endif %}
-            
-                    {% if quote.quantity4 > quote.quantity3 %}
+                
+                    {% if quote.quantity4 and quote.quantity4 > quote.quantity3 %}
                     <tr>
                         <td>{{ quote.quantity4 }}</td>
                         <td>{{ quote.qty4_price }}</td>
                     </tr>
                     {% endif %}
-            
-                    {% if quote.quantity5 > quote.quantity4 %}
+                
+                    {% if quote.quantity5 and quote.quantity5 > quote.quantity4 %}
                     <tr>
                         <td>{{ quote.quantity5 }}</td>
                         <td>{{ quote.qty5_price }}</td>
