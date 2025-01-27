@@ -12,7 +12,7 @@ class Quote(models.Model):
     vendor = models.CharField(max_length=50, default="Vendor Name")
     vendor_part_number = models.CharField(max_length=50, default="Vendor Part Number")
     category = models.CharField(max_length=50, default="Category")
-    image_url = models.URLField(max_length=200, default="http://www.example.com")
+    image_url = models.CharField(max_length=2083, default="https://via.placeholder.com/150")
     moq = models.IntegerField(default=0)
     package = models.CharField(max_length=50, default="White Box")
     production_time = models.CharField(max_length=50, default="MUST BE SPECIFIED")

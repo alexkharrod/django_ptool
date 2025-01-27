@@ -1,6 +1,7 @@
 {%extends "base.html"%}
 {%block title%}View Quote{%endblock%}
 {%block content%}
+{%load static%}
 <div class="container mt-5">
     <h1 class="text-center mb-4">Quote Details</h1>
 
@@ -31,7 +32,7 @@
 
                 <!-- Image Section -->
                 <div class="col-md-4 text-end">
-                    <img src="{{ quote.image_url }}" alt="Product Image" class="img-fluid rounded" style="max-width: 500px; height: auto;">
+                    <img src="{% static 'images/' %}{{quote.image_url }}" alt="Product Image" class="img-fluid rounded" style="max-width: 400px; height: auto;">
                 </div>
             </div>
 

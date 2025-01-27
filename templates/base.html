@@ -42,9 +42,11 @@
                 <div class="navbar-nav">
 
                         <div class="dropdown">
+                            {% if user.is_authenticated %}
                             <button class="btn btn-link nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                 {{ user.get_full_name|default:user.email }}
                             </button>
+                            {%endif%}
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><form action="{% url 'logout' %}" method="post" style="display: inline;">
