@@ -22,6 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
+# Redirect URLs
+LOGIN_REDIRECT_URL = "/"  # Redirect here after login
+LOGOUT_REDIRECT_URL = "/"  # Redirect here after logout
+
+# Optional: Where users are redirected if they try to access a restricted page
+LOGIN_URL = "/login/"
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
