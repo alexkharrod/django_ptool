@@ -5,7 +5,7 @@
     <style>
         @page {
             size: letter portrait;
-            margin: 1.5cm;  /* Reduced margins */
+            margin: 1.5cm;
         }
         
         body {
@@ -16,67 +16,68 @@
         .specs {
             margin-top: 5px;
             margin-bottom: 5px;
+            min-height: 120px;  /* Ensures minimum space for specifications */
+            max-height: 250px;  /* Adjusts maximum height while keeping one page */
+            overflow: auto;     /* Allows scrolling if content exceeds space */
         }
+        
         .container {
             width: 100%;
-            padding: 10px;  /* Reduced padding */
+            padding: 8px;      /* Slightly reduced padding */
         }
         
         h1 {
             font-size: 20px;
-            margin: 10px 0;
+            margin: 8px 0;     /* Reduced margin */
+            text-align: center;
         }
         
         h4 {
             font-size: 16px;
-            margin: 8px 0;
+            margin: 6px 0;     /* Reduced margin */
         }
         
         h5 {
             font-size: 14px;
-            margin: 8px 0;
+            margin: 6px 0;     /* Reduced margin */
         }
         
         .card {
+            position: relative;
             border: 1px solid #ddd;
             background: #fff;
         }
         
         .card-header {
-            padding: 8px 15px;
+            position: relative;
+            padding: 6px 15px;  /* Reduced padding */
         }
         
         .card-body {
-            padding: 15px;
+            padding: 12px;     /* Reduced padding */
         }
         
         .row {
-            margin-bottom: 8px;
+            margin-bottom: 6px; /* Reduced margin */
+            display: flex;
+            flex-wrap: wrap;
         }
         
-        .col-md-8, .col-md-4 {
-            display: table-cell;
-            vertical-align: top;
-        }
-        
+        /* Column widths remain the same */
         .col-md-8 { width: 66.66%; }
-        .col-md-6 { width: 50%; float: left; }
+        .col-md-6 { width: 50%; }
         .col-md-4 { width: 33.33%; }
-        .col-md-3 { width: 25%; float: left; }
-        .col-md-2 { width: 16.66%; float: left; }
-        
-        .text-muted {
-            color: #6c757d;
-        }
+        .col-md-3 { width: 25%; }
+        .col-md-2 { width: 16.66%; }
         
         .table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 12px 0;    /* Reduced margin */
         }
         
         .table th, .table td {
-            padding: 6px;
+            padding: 4px;      /* Reduced padding */
             font-size: 12px;
         }
         
@@ -85,21 +86,82 @@
             font-weight: bold;
         }
         
-        img {
-            max-width: 200px;  /* Reduced from 300px */
+        .product-image {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+        
+        .product-image img {
+            max-width: 160px;  /* Slightly reduced image size */
             height: auto;
         }
         
         .section {
-            margin-bottom: 12px;
+            margin-bottom: 10px; /* Reduced margin */
         }
 
-        .section {
-            margin-bottom: 20px;
+        .header {
+            text-align: left;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .header img {
+            max-width: 50px;
+            height: auto;
+        }
+        
+        .header .company-details {
+            font-size: 10px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .general-info {
+            width: 65%;
+        }
+
+        /* New styles for specifications section */
+        .specifications-section {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .specifications-content {
+            padding: 8px;
+            border: 1px solid #eee;
+            background-color: #fafafa;
+            min-height: 120px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        /* Optimize other sections for space */
+        .product-info-section,
+        .pricing-section,
+        .carton-info-section {
+            margin-top: 8px;
+            padding: 6px 0;
+        }
+
+        .footer-text {
+            margin: 8px 15px;
+            font-size: 11px;
         }
     </style>
 </head>
 <body>
+    <!-- Header and container sections remain the same -->
+    <div class="header">
+        <img src="{{ base_url }}/static/images/li-circle.png" alt="Logo">
+        <div class="company-details">
+            <strong>LogoIncluded</strong><br>
+            salesteam@logoincluded.com<br>
+            678-947-0993
+        </div>
+    </div>
     <div class="container">
         <h1>Quote Details</h1>
 
@@ -111,37 +173,38 @@
             
             <div class="card-body">
                 <div class="section">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h5>General Information</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <strong>Name:</strong> {{ quote.name }}
-                                </div>
-                                <div class="col-md-6">
-                                    <strong>Customer Name:</strong> {{ quote.customer_name }}
-                                </div>
+                    <div class="general-info">
+                        <h5>General Information</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Name:</strong> {{ quote.name }}
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <strong>Sales Representative:</strong> {{ quote.sales_rep }}
-                                </div>
+                            <div class="col-md-6">
+                                <strong>Customer Name:</strong> {{ quote.customer_name }}
                             </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <strong>Specifications</strong>
-                                    <p class="specs">{{ quote.description }}</p>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Sales Representative:</strong> {{ quote.sales_rep }}
                             </div>
                         </div>
                         
-                        <div class="col-md-4">
-                            <img src="data:image/png;base64,{{ encoded_image }}" alt="Product Image">
+                        <!-- Updated specifications section -->
+                        <div class="specifications-section">
+                            <strong>Specifications</strong>
+                            <div class="specifications-content">
+                                {{ quote.description }}
+                            </div>
                         </div>
+                    </div>
+                    <div class="product-image">
+                        <img src="data:image/png;base64,{{ encoded_image }}" alt="Product Image">
                     </div>
                 </div>
 
-                <div class="section">
+                <!-- Rest of the sections remain the same but with optimized spacing -->
+                <!-- Product Information section -->
+                <div class="product-info-section">
                     <h5>Product Information</h5>
                     <div class="row">
                         <div class="col-md-6">
@@ -159,9 +222,11 @@
                     </div>
                 </div>
 
-                <div class="section">
+                <!-- Pricing Information section -->
+                <div class="pricing-section">
                     <h5>Pricing Information</h5>
                     <table class="table">
+                        <!-- Table content remains the same -->
                         <thead>
                             <tr>
                                 <th>Quantity</th>
@@ -201,7 +266,8 @@
                     </table>
                 </div>
 
-                <div class="section">
+                <!-- Master Carton Information section -->
+                <div class="carton-info-section">
                     <h5>Master Carton Information</h5>
                     <div class="row">
                         <div class="col-md-3">
@@ -216,6 +282,10 @@
                     </div>
                 </div>
             </div>
-                <div>
-                    <p><strong> Prices are Net and valid for 30 days from the date of this quote.</strong></p>
-                </div>
+            <div class="footer-text">
+                <p><strong>Prices are Net and valid for 30 days from the date of this quote.</strong></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
