@@ -12,10 +12,13 @@ def home(request):
 
 def add_product(request):
 
-    if "method" == "POST":
+    if request.method == "POST":
         form = CreateProductForm(request.POST)
         if form.is_valid():
+            print(form.cleaned_data)
             form.save()
             return redirect("home")
-    form = CreateProductForm()
+
+    else:
+        form = CreateProductForm()
     return render(request, "add_product.html", {"form": form})
