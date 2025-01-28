@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from .forms import CreateProductForm
 
@@ -11,5 +11,11 @@ def home(request):
 
 
 def add_product(request):
+
+    if "method" == "POST":
+        form = CreateProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("home")
     form = CreateProductForm()
     return render(request, "add_product.html", {"form": form})

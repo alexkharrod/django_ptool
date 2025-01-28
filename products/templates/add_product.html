@@ -25,13 +25,17 @@
         </div>
 
         <div class="row mt-3">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label for="id_moq" class="form-label">MOQ</label>
                 {{ form.moq|add_class:"form-control" }}
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label for="id_package" class="form-label">Package</label>
                 {{ form.package|add_class:"form-control" }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_package" class="form-label">Image Filename</label>
+                {{ form.image_url|add_class:"form-control" }}
             </div>
         </div>
 
@@ -59,16 +63,111 @@
 
         <div class="row mt-3">
             <div class="col-md-4">
+                <label for="id_production_time" class="form-label">Imprint Method</label>
+                {{ form.imprint_method|add_class:"form-control" }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_vendor" class="form-label">Imprint Dims</label>
+                {{ form.imprint_dimension|add_class:"form-control" }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_vendor_sku" class="form-label">Imprint Location</label>
+                {{ form.imprint_location|add_class:"form-control" }}
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <label for="id_carton_qty" class="form-label">Duty Rate</label>
+                {{ form.duty_percent|add_class:"form-control" }}
+            </div>
+            <div class="col-md-3">
+                <label for="id_carton_weight" class="form-label">Tariff Rate</label>
+                {{ form.tariff_percent|add_class:"form-control" }}
+            </div>
+            <div class="col-md-3">
+                <label for="id_carton_weight" class="form-label">Air Freight</label>
+                {{ form.air_freight|add_class:"form-control" }}
+            </div>
+
+            <div class="col-md-3">
+                <label for="id_carton_weight" class="form-label">Ocean Freight</label>
+                {{ form.ocean_freight|add_class:"form-control" }}
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            
+            <div class="col-md-2">
                 <label for="id_carton_qty" class="form-label">Carton Quantity</label>
                 {{ form.carton_qty|add_class:"form-control" }}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <label for="id_carton_weight" class="form-label">Carton Weight</label>
                 {{ form.carton_weight|add_class:"form-control" }}
             </div>
+            <div class="col-md-2">
+                <label for="id_carton_dimension" class="form-label">Carton Length</label>
+                {{ form.carton_length|add_class:"form-control" }}
+            </div>
+            <div class="col-md-2">
+                <label for="id_carton_dimension" class="form-label">Carton Width</label>
+                {{ form.carton_width|add_class:"form-control" }}
+            </div>
+            <div class="col-md-2">
+                <label for="id_carton_dimension" class="form-label">Carton Height</label>
+                {{ form.carton_height|add_class:"form-control" }}
+            </div>
+           
+           
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-2">
+                <div class="form-check">
+                    {{ form.price_list|add_class:"form-check-input" }}
+                    <label class="form-check-label" for="id_price_list">Price List</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-check">
+                    {{ form.product_list|add_class:"form-check-input" }}
+                    <label class="form-check-label" for="id_product_list">Product List</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-check">
+                    {{ form.hts_list|add_class:"form-check-input" }}
+                    <label class="form-check-label" for="id_hts_list">HTS List</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-check">
+                    {{ form.npds_done|add_class:"form-check-input" }}
+                    <label class="form-check-label" for="id_npds_done">NPDS Done</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-check">
+                    {{ form.qb_added|add_class:"form-check-input" }}
+                    <label class="form-check-label" for="id_qb_added">QB Added</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-check">
+                    {{ form.published|add_class:"form-check-input" }}
+                    <label class="form-check-label" for="id_published">Published</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
             <div class="col-md-4">
-                <label for="id_carton_dimension" class="form-label">Carton Dimensions</label>
-                {{ form.carton_dimension|add_class:"form-control" }}
+                <label for="id_status" class="form-label">Status</label>
+                <select name="status" id="id_status" class="form-select">
+                    <option value="Open">Open</option>
+                    <option value="Added">Added</option>
+                    <option value="Canceled">Canceled</option>
+                </select>
             </div>
         </div>
 
@@ -77,4 +176,6 @@
         </div>
     </form>
 </div>
+
+
 {% endblock %}
