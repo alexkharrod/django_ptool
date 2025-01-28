@@ -64,7 +64,7 @@ def create_quote(request):
         )
         if last_quote:
             last_suffix = int(last_quote.quote_num[-4:])  # Extract numeric suffix
-            new_suffix = f"{last_suffix + 1:04d}"  # Increment suffix, zero-padded
+            new_suffix = f"{last_suffix + 1:02d}"  # Increment suffix, zero-padded
         else:
             new_suffix = "0001"  # Start at 0001 if no quotes exist for the day
         auto_generated_quote_num = f"{date_prefix}{new_suffix}"
@@ -73,9 +73,6 @@ def create_quote(request):
         form = CreateQuoteForm(initial={"quote_num": auto_generated_quote_num})
 
     return render(request, "create_quote.html", {"form": form})
-
-
-import base64
 
 
 def quote_pdf(request, quote_id):
