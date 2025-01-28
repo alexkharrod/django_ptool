@@ -13,6 +13,10 @@ class Product(models.Model):
     estimated_launch = models.CharField(max_length=50)
     description = models.TextField(max_length=500)
 
+    # Vendor info:
+    vendor = models.CharField(max_length=50)
+    vendor_sku = models.CharField(max_length=50)
+
     # Master Carton info:
     carton_qty = models.IntegerField()
     carton_weight = models.DecimalField(max_digits=10, decimal_places=2)

@@ -1,7 +1,3 @@
 .split-para      { display:block;margin:10px;}
 .split-para span { display:block;float:right;width:50%;margin-left:10px;}
 
-.specs{
-        white-space: pre-wrap; /* Preserves line breaks in text */
-        overflow-wrap: break-word; /* Breaks long words to fit within container */
-    }
