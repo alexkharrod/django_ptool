@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        @page {
+            size: letter portrait;
+            margin: 1.5cm;  /* Reduced margins */
+        }
+        
+        body {
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        .specs {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .container {
+            width: 100%;
+            padding: 10px;  /* Reduced padding */
+        }
+        
+        h1 {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        
+        h4 {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+        
+        h5 {
+            font-size: 14px;
+            margin: 8px 0;
+        }
+        
+        .card {
+            border: 1px solid #ddd;
+            background: #fff;
+        }
+        
+        .card-header {
+            padding: 8px 15px;
+        }
+        
+        .card-body {
+            padding: 15px;
+        }
+        
+        .row {
+            margin-bottom: 8px;
+        }
+        
+        .col-md-8, .col-md-4 {
+            display: table-cell;
+            vertical-align: top;
+        }
+        
+        .col-md-8 { width: 66.66%; }
+        .col-md-6 { width: 50%; float: left; }
+        .col-md-4 { width: 33.33%; }
+        .col-md-3 { width: 25%; float: left; }
+        .col-md-2 { width: 16.66%; float: left; }
+        
+        .text-muted {
+            color: #6c757d;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .table th, .table td {
+            padding: 6px;
+            font-size: 12px;
+        }
+        
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        img {
+            max-width: 200px;  /* Reduced from 300px */
+            height: auto;
+        }
+        
+        .section {
+            margin-bottom: 12px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quote Details</h1>
+
+        <div class="card">
+            <div class="card-header">
+                <h4>Quote # {{ quote.quote_num }}</h4>
+                <span>{{ quote.date_created|date:"M d, Y" }}</span>
+            </div>
+            
+            <div class="card-body">
+                <div class="section">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5>General Information</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Name:</strong> {{ quote.name }}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Customer Name:</strong> {{ quote.customer_name }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Sales Representative:</strong> {{ quote.sales_rep }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>Specifications</strong>
+                                    <p class="specs">{{ quote.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <img src="data:image/png;base64,{{ encoded_image }}" alt="Product Image">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h5>Product Information</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Imprint Method:</strong> {{ quote.imprint_method }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>MOQ:</strong> {{ quote.moq }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Package Type:</strong> {{ quote.package }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Production Time:</strong> {{ quote.production_time }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h5>Pricing Information</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ quote.quantity1 }}</td>
+                                <td>{{ quote.qty1_price }}</td>
+                            </tr>
+                            {% if quote.quantity2 and quote.quantity2 > quote.quantity1 %}
+                            <tr>
+                                <td>{{ quote.quantity2 }}</td>
+                                <td>{{ quote.qty2_price }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if quote.quantity3 and quote.quantity3 > quote.quantity2 %}
+                            <tr>
+                                <td>{{ quote.quantity3 }}</td>
+                                <td>{{ quote.qty3_price }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if quote.quantity4 and quote.quantity4 > quote.quantity3 %}
+                            <tr>
+                                <td>{{ quote.quantity4 }}</td>
+                                <td>{{ quote.qty4_price }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if quote.quantity5 and quote.quantity5 > quote.quantity4 %}
+                            <tr>
+                                <td>{{ quote.quantity5 }}</td>
+                                <td>{{ quote.qty5_price }}</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h5>Master Carton Information</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Carton Quantity:</strong> {{ quote.carton_qty }}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Weight:</strong> {{ quote.carton_weight }} kg
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Width:</strong> {{ quote.carton_width }} cm
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div>
+                    <p><strong> Prices are Net and valid for 30 days from the date of this quote.</strong></p>
+                </div>

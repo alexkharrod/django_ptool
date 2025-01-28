@@ -1,7 +1,16 @@
+import base64
+import os
+import tempfile
+from pathlib import Path
+
+from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.utils.timezone import now
+from weasyprint import HTML
 
 from .forms import CreateQuoteForm
 from .models import Quote
@@ -64,3 +73,32 @@ def create_quote(request):
         form = CreateQuoteForm(initial={"quote_num": auto_generated_quote_num})
 
     return render(request, "create_quote.html", {"form": form})
+
+
+import base64
+
+
+def quote_pdf(request, quote_id):
+    quote = Quote.objects.get(id=quote_id)
+
+    # Get the absolute path for the image
+    image_path = os.path.join(settings.BASE_DIR, "static", "images", quote.image_url)
+
+    # Read and encode the image
+    with open(image_path, "rb") as img_file:
+        encoded_image = base64.b64encode(img_file.read()).decode("utf-8")
+
+    context = {"quote": quote, "encoded_image": encoded_image}
+
+    html_string = render_to_string("quote_pdf.html", context)
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = (
+        f'attachment; filename="quote_{quote.quote_num}.pdf"'
+    )
+
+    HTML(string=html_string, base_url=request.build_absolute_uri("/")).write_pdf(
+        response, presentational_hints=True
+    )
+
+    return response
