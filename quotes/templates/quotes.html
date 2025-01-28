@@ -2,7 +2,25 @@
 {% block title %}Quotes{% endblock %}
 
 {% block content %}
-
+<!-- Search and Filter Section -->
+<div class="row mb-4">
+  <div class="col-md-8">
+      <form method="get" class="d-flex gap-3">
+          <div class="flex-grow-1">
+              <input type="text" 
+                     name="search" 
+                     class="form-control" 
+                     placeholder="Search by SKU, Name, Category, Customer, or Rep"
+                     value="{{ request.GET.search }}">
+          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+          <a href="{% url 'quotes' %}" class="btn btn-secondary">Reset</a>
+      </form>
+  </div>
+  <div class="col-md-4 text-end">
+      <a href="{% url 'create_quote' %}" class="btn btn-success">New Quote</a>
+  </div>
+</div>
 <h1>Quotes</h1><table class="table">
     <thead>
       <tr>
@@ -30,5 +48,5 @@
      
     </tbody>
   </table>
-  <a href="{%url 'create_quote' %}" class="btn btn-primary me-2">New Quote</a>
+
 {% endblock %}

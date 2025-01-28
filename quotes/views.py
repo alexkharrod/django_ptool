@@ -6,6 +6,7 @@ from pathlib import Path
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
@@ -29,14 +30,32 @@ def view_quote(request, pk):
 
 
 def quotes(request):
-    quotes = Quote.objects.all().order_by("-date_created")
-    paginator = Paginator(quotes, 25)
+    # get the search query from the GET parameters
+    search_query = request.GET.get("search", "")
 
+    # Start with all quotes
+    queryset = Quote.objects.all()
+
+    # Apply search if there is a search query
+    if search_query:
+        queryset = queryset.filter(
+            Q(quote_num__icontains=search_query)
+            | Q(name__icontains=search_query)
+            | Q(category__icontains=search_query)
+            | Q(customer_name__icontains=search_query)
+            | Q(sales_rep__icontains=search_query)
+        )
+    queryset = queryset.order_by("quote_num")
+    paginator = Paginator(queryset, 25)
     # Get the page number from the request
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    context = {
+        "quotes": queryset,
+        "search_query": search_query,
+    }
 
-    return render(request, "quotes.html", {"quotes": quotes})
+    return render(request, "quotes.html", context)
 
 
 def create_quote(request):
