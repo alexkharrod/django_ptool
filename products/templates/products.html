@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <h1>Products List</h1>
+    
+    <!-- Search and Filter Section -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <form method="get" class="d-flex gap-3">
+                <div class="flex-grow-1">
+                    <input type="text" 
+                           name="search" 
+                           class="form-control" 
+                           placeholder="Search by SKU, Name, or Category"
+                           value="{{ request.GET.search }}">
+                </div>
+                <div class="w-auto">
+                    <select name="status" class="form-select">
+                        <option value="Open" {% if request.GET.status == 'Open' or not request.GET.status %}selected{% endif %}>Open</option>
+                        <option value="Added" {% if request.GET.status == 'Added' %}selected{% endif %}>Added</option>
+                        <option value="Canceled" {% if request.GET.status == 'Canceled' %}selected{% endif %}>Canceled</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a href="{% url 'products' %}" class="btn btn-secondary">Reset</a>
+            </form>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{% url 'add_product' %}" class="btn btn-success">Add New SKU</a>
+        </div>
+    </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">SKU</th>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price List</th>
+            <th scope="col">Product List</th>
+            <th scope="col">HTS</th>
+            <th scope="col">NPDS</th>
+            <th scope="col">QB SKU</th>
+            <th scope="col">Published</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.sku }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>
+                <div class="form-check">
+                    <input type="checkbox" 
+                           class="form-check-input" 
+                           id="price_list_{{ product.id }}"
+                           {% if product.price_list %}checked{% endif %}
+                           disabled>
+                </div>
+            </td>
+            <td>
+                <div class="form-check">
+                    <input type="checkbox" 
+                           class="form-check-input" 
+                           id="product_list_{{ product.id }}"
+                           {% if product.product_list %}checked{% endif %}
+                           disabled>
+                </div>
+            </td>
+            <td>
+                <div class="form-check">
+                    <input type="checkbox" 
+                           class="form-check-input" 
+                           id="hts_list_{{ product.id }}"
+                           {% if product.hts_list %}checked{% endif %}
+                           disabled>
+                </div>
+            </td>
+            <td>
+                <div class="form-check">
+                    <input type="checkbox" 
+                           class="form-check-input" 
+                           id="npds_done_{{ product.id }}"
+                           {% if product.npds_done %}checked{% endif %}
+                           disabled>
+                </div>
+            </td>
+            <td>
+                <div class="form-check">
+                    <input type="checkbox" 
+                           class="form-check-input" 
+                           id="qb_added_{{ product.id }}"
+                           {% if product.qb_added %}checked{% endif %}
+                           disabled>
+                </div>
+            </td>
+            <td>
+                <div class="form-check">
+                    <input type="checkbox" 
+                           class="form-check-input" 
+                           id="published_{{ product.id }}"
+                           {% if product.published %}checked{% endif %}
+                           disabled>
+                </div>
+            </td>
+            <td>{{ product.status }}</td>
+            <td>
+                <a href="{% url 'edit_product' product.id %}" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+            </td>
+        </tr>
+     
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
