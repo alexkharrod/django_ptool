@@ -1,0 +1,95 @@
+{%extends "base.html"%}
+{%block title%}View Product{%endblock%}
+{%block content%}
+{%load static%}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Product Details</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+            <h4 class="mb-0 split-para">SKU # {{ product.sku }}</h4>
+            <span>{{ quote.date_created|date:"M d, Y" }}</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- General Information -->
+                <div class="col-md-8">
+                    <h5 class="text-muted">General Information</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Name:</strong> {{ product.name }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Vendor Name:</strong> {{ product.vendor_name }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Vendor Part# </strong> {{ product.vendor_part_num }}
+                        </div>
+                    </div>
+                    <!-- Description Field -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <strong>Specifications</strong>
+                            <p class="mt-2 text-wrap specs">{{ product.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Image Section -->
+                <div class="col-md-4 text-end">
+                    <img src="{% static 'images/' %}{{product.image_url }}" alt="Product Image" class="img-fluid rounded" style="max-width: 400px; height: auto;">
+                </div>
+            </div>
+
+            <!-- Product Information -->
+            <h5 class="text-muted">Product Information</h5>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Imprint Method:</strong> {{ product.imprint_method }}
+                </div>
+                <div class="col-md-6">
+                    <strong>MOQ:</strong> {{ quote.moq }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Package Type:</strong> {{ product.package }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Production Time:</strong> {{ quote.production_time }}
+                </div>
+            </div>
+
+          
+
+            <!-- Master Carton Information -->
+            <h5 class="text-muted mt-4">Master Carton Information</h5>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <strong>Carton Quantity:</strong> {{ product.carton_qty }}
+                </div>
+                <div class="col-md-3">
+                    <strong>Weight:</strong> {{ product.carton_weight }} kg
+                </div>
+                <div class="col-md-2">
+                    <strong>Width:</strong> {{ product.carton_width }} cm
+                </div>
+                <div class="col-md-2">
+                    <strong>Length:</strong> {{ product.carton_length }} cm
+                </div>
+                <div class="col-md-2">
+                    <strong>Height:</strong> {{ product.carton_height }} cm
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="text-end mt-4">
+                <a href="{% url 'products' %}" class="btn btn-secondary">Back to Products</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}

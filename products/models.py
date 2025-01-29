@@ -6,7 +6,7 @@ class Product(models.Model):
     sku = models.CharField(max_length=20, unique=True, null=False)
     name = models.CharField(max_length=150)
     category = models.CharField(max_length=50)
-    image_url = models.URLField(max_length=200)
+    image_url = models.CharField(max_length=200)
     moq = models.IntegerField()
     package = models.CharField(max_length=50)
     production_time = models.CharField(max_length=50)

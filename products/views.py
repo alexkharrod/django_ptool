@@ -13,13 +13,18 @@ def home(request):
     return render(request, "index.html")
 
 
+def view_products(request, pk):
+    product = Product.objects.get(pk=pk)
+    return render(request, "view_product.html", {"product": product})
+
+
 def edit_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == "POST":
         form = CreateProductForm(request.POST, instance=product)
         if form.is_valid():
             form.save()
-            return redirect("products")
+            return redirect("view_product", pk=product.pk)
     else:
         form = CreateProductForm(instance=product)
     return render(request, "edit_product.html", {"form": form, "product": product})
@@ -63,7 +68,7 @@ def add_product(request):
         if form.is_valid():
             print(form.cleaned_data)
             form.save()
-            return redirect("products")
+            return redirect("view_product",pk=form.instance.pk)
 
     else:
         form = CreateProductForm()
