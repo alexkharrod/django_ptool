@@ -40,6 +40,17 @@
                 <td>{{ quote.rep }}</td>
                 <td>{{ quote.customer }}</td>
                 <td>{{ quote.date_created|date:"M d, Y" }}</td>
+                <td>
+                  <a href="{% url 'edit_quote' quote.id %}" class="btn btn-sm btn-outline-secondary">
+                      <i class="fas fa-pencil-alt"></i>
+                  </a>
+              </td>
+              <td>
+                  <a class="btn btn-sm btn-outline-primary"
+                     href="{% url 'view_quote' quote.id %}">
+                     View
+                  </a>
+              </td>s
             </tr>
         {% endfor %}
 

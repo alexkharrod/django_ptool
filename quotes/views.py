@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.timezone import now
 from weasyprint import HTML
@@ -27,6 +27,17 @@ def home(request):
 def view_quote(request, pk):
     quote = Quote.objects.get(pk=pk)
     return render(request, "view_quote.html", {"quote": quote})
+
+def edit_quote(request, pk):
+    quote = get_object_or_404(Quote, pk=pk)
+    if request.method == "POST":
+        form = CreateQuoteForm(request.POST, instance=quote)
+        if form.is_valid():
+            form.save()
+            return redirect("view_quote", pk=quote.pk)
+    else:
+        form = CreateQuoteForm(instance=quote)
+    return render(request, "edit_quote.html", {"form": form, "quote": quote})
 
 
 def quotes(request):
