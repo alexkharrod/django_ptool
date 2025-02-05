@@ -12,7 +12,9 @@ class Quote(models.Model):
     vendor = models.CharField(max_length=50, default="Vendor Name")
     vendor_part_number = models.CharField(max_length=50, default="Vendor Part Number")
     category = models.CharField(max_length=50, default="Category")
-    image_url = models.CharField(max_length=2083, default="https://via.placeholder.com/150")
+    image_url = models.CharField(
+        max_length=2083, default="https://via.placeholder.com/150"
+    )
     moq = models.IntegerField(default=0)
     package = models.CharField(max_length=50, default="White Box")
     production_time = models.CharField(max_length=50, default="MUST BE SPECIFIED")
@@ -63,7 +65,7 @@ class Quote(models.Model):
     qty5_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
 
     # Quote created data: DD-MM_YYYY
-
+    status = models.CharField(max_length=50)
     date_created = models.DateTimeField(default=now, null=False, blank=False)
 
     def __str__(self):

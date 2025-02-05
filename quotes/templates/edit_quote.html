@@ -225,7 +225,15 @@
                 {{ form.qty5_price|add_class:"form-control" }}
             </div>
         </div>
-
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <label for="id_status" class="form-label">Status</label>
+                <select name="status" id="id_status" class="form-select">
+                    <option value="Open">Open</option>
+                    <option value="Added">Added</option>
+                    <option value="Canceled">Canceled</option>
+                </select>
+            </div>
         <!-- Submit Button -->
         <div class="text-center mt-4">
             <button type="submit" class="btn btn-primary px-4">Submit</button>

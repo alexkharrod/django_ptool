@@ -47,6 +47,7 @@ class CreateQuoteForm(forms.ModelForm):
             "qty3_price",
             "qty4_price",
             "qty5_price",
+            "status",
         ]
         widgets = {
             "air_freight": forms.TextInput(attrs={"class": "form-control"}),
@@ -96,6 +97,7 @@ class CreateQuoteForm(forms.ModelForm):
             "qty3_price": "Price for Quantity 3",
             "qty4_price": "Price for Quantity 4",
             "qty5_price": "Price for Quantity 5",
+            "status": "Status",
         }
 
         def __init__(self, *args, **kwargs):
