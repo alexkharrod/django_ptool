@@ -13,7 +13,7 @@ def home(request):
     return render(request, "index.html")
 
 
-def view_products(request, pk):
+def view_product(request, pk):
     product = Product.objects.get(pk=pk)
     return render(request, "view_product.html", {"product": product})
 

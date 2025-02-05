@@ -113,6 +113,12 @@
                     <i class="fas fa-pencil-alt"></i>
                 </a>
             </td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary"
+                   href="{% url 'view_product' product.id %}">
+                   View
+                </a>
+            </td>
         </tr>
      
         {% endfor %}
