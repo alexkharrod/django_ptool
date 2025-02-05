@@ -37,6 +37,7 @@ class CreateProductForm(forms.ModelForm):
             "qb_added",
             "published",
             "status",
+            "colors",
         ]
 
         widgets = {
@@ -74,4 +75,5 @@ class CreateProductForm(forms.ModelForm):
             "qb_added": "QB Added",
             "published": "Published",
             "status": "Status",
+            "colors": "Colors",
         }

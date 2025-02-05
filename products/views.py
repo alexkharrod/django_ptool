@@ -1,6 +1,14 @@
+import base64
+import os
+from pathlib import Path
+
+from django.conf import settings
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 from .forms import CreateProductForm
 from .models import Product
@@ -68,8 +76,32 @@ def add_product(request):
         if form.is_valid():
             print(form.cleaned_data)
             form.save()
-            return redirect("view_product",pk=form.instance.pk)
+            return redirect("view_product", id=form.instance.pk)
 
     else:
         form = CreateProductForm()
     return render(request, "add_product.html", {"form": form})
+
+
+def npds(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    # Get the absolute path for the image
+    image_path = os.path.join(settings.BASE_DIR, "static", "images", product.image_url)
+
+    # Read and encode the image
+    with open(image_path, "rb") as img_file:
+        encoded_image = base64.b64encode(img_file.read()).decode("utf-8")
+
+    context = {"product": product, "encoded_image": encoded_image}
+
+    html_string = render_to_string("npds.html", context)
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="NPDS_{product.sku}.pdf"'
+
+    HTML(string=html_string, base_url=request.build_absolute_uri("/")).write_pdf(
+        response, presentational_hints=True
+    )
+
+    return response

@@ -42,6 +42,7 @@ class Product(models.Model):
     npds_done = models.BooleanField(default=False)
     qb_added = models.BooleanField(default=False)
     published = models.BooleanField(default=False)
+    colors = models.CharField(max_length=150)
 
     # Product Status
     status = models.CharField(max_length=50)

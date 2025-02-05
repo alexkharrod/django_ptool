@@ -69,6 +69,10 @@
                     <th>Estimated Launch:</th>
                     <td>{{ product.estimated_launch|date:"M d, Y" }}</td>
                 </tr>
+                <tr>
+                    <th>Available Colors:</th>
+                    <td>{{ product.colors }}</td>
+                </tr>
             </table>
 
             <!-- Imprint Details -->
@@ -158,6 +162,7 @@
             <!-- Actions -->
             <div class="text-end mt-4">
                 <a href="{% url 'products' %}" class="btn btn-secondary">Back to Products</a>
+                <a href="{% url 'npds' product.id %}" class="btn btn-primary">Download NPDS</a>
             </div>
         </div>
     </div>
