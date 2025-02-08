@@ -75,8 +75,8 @@ def add_product(request):
         form = CreateProductForm(request.POST)
         if form.is_valid():
             print(form.cleaned_data)
-            form.save()
-            return redirect("view_product", id=form.instance.pk)
+            product = form.save()
+            return redirect("view_product", pk=product.pk)
 
     else:
         form = CreateProductForm()
