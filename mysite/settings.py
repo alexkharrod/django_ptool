@@ -93,7 +93,7 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "instance/db.sqlite3",
     }
 }
 AUTH_USER_MODEL = "users.CustomUser"
