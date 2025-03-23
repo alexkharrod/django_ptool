@@ -51,18 +51,18 @@ class Quote(models.Model):
     quantity5 = models.IntegerField(default=0)
 
     # Unit Costs
-    qty1_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    qty2_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    qty3_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    qty4_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    qty5_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    qty1_cost = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
+    qty2_cost = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
+    qty3_cost = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
+    qty4_cost = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
+    qty5_cost = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
 
     # Quote PRICES
-    qty1_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    qty2_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    qty3_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    qty4_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    qty5_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    qty1_price = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
+    qty2_price = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
+    qty3_price = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
+    qty4_price = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
+    qty5_price = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
 
     # Quote created data: DD-MM_YYYY
     status = models.CharField(max_length=50)
