@@ -82,6 +82,8 @@ class Quote(models.Model):
 
     air_transit_time = models.CharField(max_length=50, default="7-10 days")
     ocean_transit_time = models.CharField(max_length=50, default="~6 weeks")
+    notes = models.CharField(max_length=255, blank=True, null=True)
+    reciprocal_tariffs = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
 
     def __str__(self):
         return self.quote_num

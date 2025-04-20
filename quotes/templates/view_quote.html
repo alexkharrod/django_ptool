@@ -59,7 +59,12 @@
                     <strong>Production Time:</strong> {{ quote.production_time }}
                 </div>
             </div>
-
+            <p><strong style="color:red">Reciprocal Tariffs not included in Price per unit below, and are a separate line item.</strong></p>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <strong style="color:red"> Reciprocal Tariff: {{ quote.reciprocal_tariffs }} per unit. </strong>
+                </div>
+            </div>
             <!-- Pricing Information -->
             <h5 class="text-muted mt-4">Pricing Information</h5>
             <table class="table table-bordered">
@@ -126,6 +131,11 @@
                 </div>
                 <div class="col-md-2">
                     <strong>Width:</strong> {{ quote.carton_width }} cm
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <strong>Notes:</strong> {{ quote.notes }}
                 </div>
             </div>
         </div>

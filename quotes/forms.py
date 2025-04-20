@@ -55,12 +55,16 @@ class CreateQuoteForm(forms.ModelForm):
             "status",
             "air_transit_time",
             "ocean_transit_time",
+            "notes",
+            "reciprocal_tariffs",
         ]
         widgets = {
             "air_freight": forms.TextInput(attrs={"class": "form-control"}),
             "ocean_freight": forms.TextInput(attrs={"class": "form-control"}),
             "air_transit_time": forms.TextInput(attrs={"class": "form-control"}),
             "ocean_transit_time": forms.TextInput(attrs={"class": "form-control"}),
+            "notes": forms.TextInput(attrs={"class": "form-control"}),
+            "reciprocal_tariffs": forms.NumberInput(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control"}),
             "quote_num": forms.TextInput(
                 attrs={"readonly": "readonly", "class": "form-control"}
