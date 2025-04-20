@@ -57,12 +57,19 @@ class Quote(models.Model):
     qty4_cost = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
     qty5_cost = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
 
-    # Quote PRICES
-    qty1_price = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
-    qty2_price = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
-    qty3_price = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
-    qty4_price = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
-    qty5_price = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
+    # Price via Air
+    qty1_price_air = models.DecimalField(max_digits=10, decimal_places=3, default=0.0, blank=True, null=True)
+    qty2_price_air = models.DecimalField(max_digits=10, decimal_places=3, default=0.0, blank=True, null=True)
+    qty3_price_air = models.DecimalField(max_digits=10, decimal_places=3, default=0.0, blank=True, null=True)
+    qty4_price_air = models.DecimalField(max_digits=10, decimal_places=3, default=0.0, blank=True, null=True)
+    qty5_price_air = models.DecimalField(max_digits=10, decimal_places=3, default=0.0, blank=True, null=True)
+
+    # Price via Ocean
+    qty1_price_ocean = models.DecimalField(max_digits=10, decimal_places=3, default=0.0, blank=True, null=True)
+    qty2_price_ocean = models.DecimalField(max_digits=10, decimal_places=3, default=0.0, blank=True, null=True)
+    qty3_price_ocean = models.DecimalField(max_digits=10, decimal_places=3, default=0.0, blank=True, null=True)
+    qty4_price_ocean = models.DecimalField(max_digits=10, decimal_places=3, default=0.0, blank=True, null=True)
+    qty5_price_ocean = models.DecimalField(max_digits=10, decimal_places=3, default=0.0, blank=True, null=True)
 
     # Quote created data: DD-MM_YYYY
     status = models.CharField(max_length=50)

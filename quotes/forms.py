@@ -42,11 +42,16 @@ class CreateQuoteForm(forms.ModelForm):
             "qty3_cost",
             "qty4_cost",
             "qty5_cost",
-            "qty1_price",
-            "qty2_price",
-            "qty3_price",
-            "qty4_price",
-            "qty5_price",
+            "qty1_price_air",
+            "qty2_price_air",
+            "qty3_price_air",
+            "qty4_price_air",
+            "qty5_price_air",
+            "qty1_price_ocean",
+            "qty2_price_ocean",
+            "qty3_price_ocean",
+            "qty4_price_ocean",
+            "qty5_price_ocean",
             "status",
         ]
         widgets = {
@@ -92,11 +97,16 @@ class CreateQuoteForm(forms.ModelForm):
             "qty3_cost": "Cost for Quantity 3",
             "qty4_cost": "Cost for Quantity 4",
             "qty5_cost": "Cost for Quantity 5",
-            "qty1_price": "Price for Quantity 1",
-            "qty2_price": "Price for Quantity 2",
-            "qty3_price": "Price for Quantity 3",
-            "qty4_price": "Price for Quantity 4",
-            "qty5_price": "Price for Quantity 5",
+            "qty1_price_air": "Price Air for Quantity 1",
+            "qty2_price_air": "Price Air for Quantity 2",
+            "qty3_price_air": "Price Air for Quantity 3",
+            "qty4_price_air": "Price Air for Quantity 4",
+            "qty5_price_air": "Price Air for Quantity 5",
+            "qty1_price_ocean": "Price Ocean for Quantity 1",
+            "qty2_price_ocean": "Price Ocean for Quantity 2",
+            "qty3_price_ocean": "Price Ocean for Quantity 3",
+            "qty4_price_ocean": "Price Ocean for Quantity 4",
+            "qty5_price_ocean": "Price Ocean for Quantity 5",
             "status": "Status",
         }
 
@@ -139,10 +149,33 @@ class CreateQuoteForm(forms.ModelForm):
                     "qty3_cost": 9.0,
                     "qty4_cost": 8.5,
                     "qty5_cost": 8.0,
-                    "qty1_price": 20.0,
-                    "qty2_price": 19.5,
-                    "qty3_price": 19.0,
-                    "qty4_price": 18.5,
-                    "qty5_price": 18.0,
+                    "qty1_price_air": 20.0, # Default example value
+                    "qty2_price_air": 19.5, # Default example value
+                    "qty3_price_air": 19.0,
+                    "qty4_price_air": 18.5,
+                    "qty5_price_air": 18.0,
+                    "qty1_price_ocean": 0.0,
+                    "qty2_price_ocean": 0.0,
+                    "qty3_price_ocean": 0.0,
+                    "qty4_price_ocean": 0.0,
+                    "qty5_price_ocean": 0.0,
                 }
             )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        price_air_q1 = cleaned_data.get("qty1_price_air")
+        price_ocean_q1 = cleaned_data.get("qty1_price_ocean")
+
+        # Check if both Q1 price fields are empty or None (or effectively zero)
+        is_air_q1_missing = price_air_q1 is None or float(price_air_q1) == 0.0
+        is_ocean_q1_missing = price_ocean_q1 is None or float(price_ocean_q1) == 0.0
+
+        if is_air_q1_missing and is_ocean_q1_missing:
+            raise forms.ValidationError(
+                "At least one price (Air or Ocean) must be provided for Quantity Level 1."
+            )
+
+        # No validation needed for Q2-Q5 as per requirements
+
+        return cleaned_data

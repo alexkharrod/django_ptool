@@ -197,34 +197,64 @@
             </div>
         </div>
 
-        <!-- Section 5B: Quote Prices -->
-        <h4 class="text-success">Quote Prices</h4>
+        <!-- Section 5B: Price via Air -->
+        <h4 class="text-success">Price via Air</h4>
         <div class="row g-3 mb-3">
             <div class="col-md-2">
-                <label for="id_qty1_price" class="form-label text-success">Sell Price (Q1)</label>
-                {{ form.qty1_price|add_class:"form-control" }}
+                <label for="id_qty1_price_air" class="form-label text-success">Sell Price Air (Q1)</label>
+                {{ form.qty1_price_air|add_class:"form-control" }}
             </div>
 
             <div class="col-md-2">
-                <label for="id_qty2_price" class="form-label text-success">Sell Price(Q2)</label>
-                {{ form.qty2_price|add_class:"form-control" }}
+                <label for="id_qty2_price_air" class="form-label text-success">Sell Price Air (Q2)</label>
+                {{ form.qty2_price_air|add_class:"form-control" }}
             </div>
 
             <div class="col-md-2">
-                <label for="id_qty3_price" class="form-label text-success">Sell Price (Q3)</label>
-                {{ form.qty3_price|add_class:"form-control" }}
+                <label for="id_qty3_price_air" class="form-label text-success">Sell Price Air (Q3)</label>
+                {{ form.qty3_price_air|add_class:"form-control" }}
             </div>
 
             <div class="col-md-2">
-                <label for="id_qty4_price" class="form-label text-success">Sell Price (Q4)</label>
-                {{ form.qty4_price|add_class:"form-control" }}
+                <label for="id_qty4_price_air" class="form-label text-success">Sell Price Air (Q4)</label>
+                {{ form.qty4_price_air|add_class:"form-control" }}
             </div>
 
             <div class="col-md-2">
-                <label for="id_qty5_price" class="form-label text-success">Sell Price (Q5)</label>
-                {{ form.qty5_price|add_class:"form-control" }}
+                <label for="id_qty5_price_air" class="form-label text-success">Sell Price Air (Q5)</label>
+                {{ form.qty5_price_air|add_class:"form-control" }}
             </div>
         </div>
+
+        <!-- Section 5C: Price via Ocean -->
+        <h4 class="text-info">Price via Ocean</h4>
+        <div class="row g-3 mb-3">
+            <div class="col-md-2">
+                <label for="id_qty1_price_ocean" class="form-label text-info">Sell Price Ocean (Q1)</label>
+                {{ form.qty1_price_ocean|add_class:"form-control" }}
+            </div>
+
+            <div class="col-md-2">
+                <label for="id_qty2_price_ocean" class="form-label text-info">Sell Price Ocean (Q2)</label>
+                {{ form.qty2_price_ocean|add_class:"form-control" }}
+            </div>
+
+            <div class="col-md-2">
+                <label for="id_qty3_price_ocean" class="form-label text-info">Sell Price Ocean (Q3)</label>
+                {{ form.qty3_price_ocean|add_class:"form-control" }}
+            </div>
+
+            <div class="col-md-2">
+                <label for="id_qty4_price_ocean" class="form-label text-info">Sell Price Ocean (Q4)</label>
+                {{ form.qty4_price_ocean|add_class:"form-control" }}
+            </div>
+
+            <div class="col-md-2">
+                <label for="id_qty5_price_ocean" class="form-label text-info">Sell Price Ocean (Q5)</label>
+                {{ form.qty5_price_ocean|add_class:"form-control" }}
+            </div>
+        </div>
+
         <div class="row mt-3">
             <div class="col-md-4">
                 <label for="id_status" class="form-label">Status</label>
