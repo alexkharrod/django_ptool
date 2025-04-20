@@ -173,17 +173,20 @@ class CreateQuoteForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        price_air_q1 = cleaned_data.get("qty1_price_air")
-        price_ocean_q1 = cleaned_data.get("qty1_price_ocean")
 
-        # Check if both Q1 price fields are empty or None (or effectively zero)
-        is_air_q1_missing = price_air_q1 is None or float(price_air_q1) == 0.0
-        is_ocean_q1_missing = price_ocean_q1 is None or float(price_ocean_q1) == 0.0
+        # Only perform validation if price fields are present in the data
+        if 'qty1_price_air' in self.data or 'qty1_price_ocean' in self.data:
+            price_air_q1 = cleaned_data.get("qty1_price_air")
+            price_ocean_q1 = cleaned_data.get("qty1_price_ocean")
 
-        if is_air_q1_missing and is_ocean_q1_missing:
-            raise forms.ValidationError(
-                "At least one price (Air or Ocean) must be provided for Quantity Level 1."
-            )
+            # Check if both Q1 price fields are empty or None (or effectively zero)
+            is_air_q1_missing = price_air_q1 is None or float(price_air_q1) == 0.0
+            is_ocean_q1_missing = price_ocean_q1 is None or float(price_ocean_q1) == 0.0
+
+            if is_air_q1_missing and is_ocean_q1_missing:
+                raise forms.ValidationError(
+                    "At least one price (Air or Ocean) must be provided for Quantity Level 1."
+                )
 
         # No validation needed for Q2-Q5 as per requirements
 
