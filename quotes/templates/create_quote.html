@@ -269,11 +269,7 @@
         <div class="row mt-3">
             <div class="col-md-4">
                 <label for="id_status" class="form-label">Status</label>
-                <select name="status" id="id_status" class="form-select">
-                    <option value="Open">Open</option>
-                    <option value="Added">Lost</option>
-                    <option value="Canceled">Added</option>
-                </select>
+                {{ form.status|add_class:"form-select" }}
             </div>
         <!-- Submit Button -->
         <div class="text-center mt-4">

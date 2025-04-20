@@ -72,7 +72,12 @@ class Quote(models.Model):
     qty5_price_ocean = models.DecimalField(max_digits=10, decimal_places=3, default=0.0, blank=True, null=True)
 
     # Quote created data: DD-MM_YYYY
-    status = models.CharField(max_length=50)
+    STATUS_CHOICES = [
+        ('Open', 'Open'),
+        ('Added', 'Added'),
+        ('Closed', 'Closed'),
+    ]
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Open')
     date_created = models.DateTimeField(default=now, null=False, blank=False)
 
     air_transit_time = models.CharField(max_length=50, default="7-10 days")

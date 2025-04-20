@@ -65,6 +65,7 @@ class CreateQuoteForm(forms.ModelForm):
             "quote_num": forms.TextInput(
                 attrs={"readonly": "readonly", "class": "form-control"}
             ),
+            'status': forms.Select(choices=Quote.STATUS_CHOICES, attrs={'class': 'form-control'}),
         }
 
         labels = {
