@@ -230,36 +230,44 @@
                         <thead>
                             <tr>
                                 <th>Quantity</th>
-                                <th>Price</th>
+                                <th>Price via Air</th>
+                                <th>Price via Ocean</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% if quote.quantity1 %}
                             <tr>
                                 <td>{{ quote.quantity1 }}</td>
-                                <td>{{ quote.qty1_price }}</td>
+                                <td>{{ quote.qty1_price_air|default:quote.qty1_price|default:"N/A" }}</td>
+                                <td>{{ quote.qty1_price_ocean|default:"N/A" }}</td>
                             </tr>
+                            {% endif %}
                             {% if quote.quantity2 and quote.quantity2 > quote.quantity1 %}
                             <tr>
                                 <td>{{ quote.quantity2 }}</td>
-                                <td>{{ quote.qty2_price }}</td>
+                                <td>{{ quote.qty2_price_air|default:quote.qty2_price|default:"N/A" }}</td>
+                                <td>{{ quote.qty2_price_ocean|default:"N/A" }}</td>
                             </tr>
                             {% endif %}
                             {% if quote.quantity3 and quote.quantity3 > quote.quantity2 %}
                             <tr>
                                 <td>{{ quote.quantity3 }}</td>
-                                <td>{{ quote.qty3_price }}</td>
+                                <td>{{ quote.qty3_price_air|default:quote.qty3_price|default:"N/A" }}</td>
+                                <td>{{ quote.qty3_price_ocean|default:"N/A" }}</td>
                             </tr>
                             {% endif %}
                             {% if quote.quantity4 and quote.quantity4 > quote.quantity3 %}
                             <tr>
                                 <td>{{ quote.quantity4 }}</td>
-                                <td>{{ quote.qty4_price }}</td>
+                                <td>{{ quote.qty4_price_air|default:quote.qty4_price|default:"N/A" }}</td>
+                                <td>{{ quote.qty4_price_ocean|default:"N/A" }}</td>
                             </tr>
                             {% endif %}
                             {% if quote.quantity5 and quote.quantity5 > quote.quantity4 %}
                             <tr>
                                 <td>{{ quote.quantity5 }}</td>
-                                <td>{{ quote.qty5_price }}</td>
+                                <td>{{ quote.qty5_price_air|default:quote.qty5_price|default:"N/A" }}</td>
+                                <td>{{ quote.qty5_price_ocean|default:"N/A" }}</td>
                             </tr>
                             {% endif %}
                         </tbody>
