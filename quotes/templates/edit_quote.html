@@ -138,8 +138,19 @@
                 <label for="id_ocean_freight" class="form-label">Ocean Freight</label>
                 {{ form.ocean_freight|add_class:"form-control" }}
             </div>
-        </div>   
-        
+        </div>
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="id_air_transit_time" class="form-label">Air Transit Time</label>
+                {{ form.air_transit_time|add_class:"form-control" }}
+            </div>
+
+            <div class="col-md-6">
+                <label for="id_ocean_transit_time" class="form-label">Ocean Transit Time</label>
+                {{ form.ocean_transit_time|add_class:"form-control" }}
+            </div>
+        </div>
+
        <!-- Section 5A: Quantities Information -->
         <h4>Quantities</h4>
         <div class="row g-3 mb-3">

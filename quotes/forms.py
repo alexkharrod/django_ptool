@@ -53,10 +53,14 @@ class CreateQuoteForm(forms.ModelForm):
             "qty4_price_ocean",
             "qty5_price_ocean",
             "status",
+            "air_transit_time",
+            "ocean_transit_time",
         ]
         widgets = {
             "air_freight": forms.TextInput(attrs={"class": "form-control"}),
             "ocean_freight": forms.TextInput(attrs={"class": "form-control"}),
+            "air_transit_time": forms.TextInput(attrs={"class": "form-control"}),
+            "ocean_transit_time": forms.TextInput(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control"}),
             "quote_num": forms.TextInput(
                 attrs={"readonly": "readonly", "class": "form-control"}
@@ -108,12 +112,16 @@ class CreateQuoteForm(forms.ModelForm):
             "qty4_price_ocean": "Price Ocean for Quantity 4",
             "qty5_price_ocean": "Price Ocean for Quantity 5",
             "status": "Status",
+            "air_transit_time": "Air Transit Time",
+            "ocean_transit_time": "Ocean Transit Time",
         }
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.initial.update(
                 {
+                    "air_transit_time": "7-10 days",
+                    "ocean_transit_time": "~6 weeks",
                     "quote_num": "Q12345",  # Default quote number
                     "name": "Default Product Name",
                     "vendor": "Default Vendor",

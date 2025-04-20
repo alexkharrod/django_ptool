@@ -3,21 +3,34 @@
 
 {% block content %}
 <!-- Search and Filter Section -->
-<div class="row mb-4">
-  <div class="col-md-8">
-      <form method="get" class="d-flex gap-3">
-          <div class="flex-grow-1">
-              <input type="text" 
-                     name="search" 
-                     class="form-control" 
+<div class="row mb-4 align-items-end">
+  <div class="col-md-10">
+      <form method="get" class="d-flex flex-wrap gap-3">
+          <div class="flex-grow-1" style="min-width: 300px;">
+              <label for="search-input" class="form-label visually-hidden">Search</label>
+              <input type="text"
+                     id="search-input"
+                     name="search"
+                     class="form-control"
                      placeholder="Search by SKU, Name, Category, Customer, or Rep"
-                     value="{{ request.GET.search }}">
+                     value="{{ search_query }}">
           </div>
-          <button type="submit" class="btn btn-primary">Search</button>
-          <a href="{% url 'quotes' %}" class="btn btn-secondary">Reset</a>
+          <div style="min-width: 150px;">
+              <label for="status-filter" class="form-label visually-hidden">Status</label>
+              <select name="status" id="status-filter" class="form-select" onchange="this.form.submit()">
+                  <option value="all" {% if not selected_status or selected_status == 'all' %}selected{% endif %}>All Statuses</option>
+                  {% for status in statuses %}
+                      <option value="{{ status }}" {% if selected_status == status %}selected{% endif %}>{{ status }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+          <div class="d-flex gap-2">
+             <button type="submit" class="btn btn-primary">Apply Filters</button>
+             <a href="{% url 'quotes' %}" class="btn btn-secondary">Reset</a>
+          </div>
       </form>
   </div>
-  <div class="col-md-4 text-end">
+  <div class="col-md-2 text-end">
       <a href="{% url 'create_quote' %}" class="btn btn-success">New Quote</a>
   </div>
 </div>
@@ -25,8 +38,8 @@
 <table class="table">
     <thead>
       <tr>
-        <th scope="col">Quote Number</th>
-        <th scope="col">Quote Name</th>
+        <th scope="col">Quote #</th>
+        <th scope="col">Name</th>
         <th scope="col">Rep</th>
         <th scope="col">Customer</th>
         <th scope="col">Date Created</th>
@@ -35,7 +48,7 @@
     </thead>
     <tbody>
 
-        {% for quote in quotes %}
+        {% for quote in quotes.object_list %} {# Iterate over paginated objects #}
             <tr>
                 <td>{{ quote.quote_num }}</td>
                 <td>{{ quote.name }}</td>
@@ -62,5 +75,46 @@
      
     </tbody>
   </table>
+
+<!-- Pagination Controls -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if quotes.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1&search={{ search_query }}&status={{ selected_status }}" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ quotes.previous_page_number }}&search={{ search_query }}&status={{ selected_status }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+
+        <li class="page-item disabled">
+            <span class="page-link">Page {{ quotes.number }} of {{ quotes.paginator.num_pages }}</span>
+        </li>
+
+        {% if quotes.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ quotes.next_page_number }}&search={{ search_query }}&status={{ selected_status }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ quotes.paginator.num_pages }}&search={{ search_query }}&status={{ selected_status }}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
+        {% endif %}
+    </ul>
+</nav>
 
 {% endblock %}

@@ -41,11 +41,19 @@ def edit_quote(request, pk):
 
 
 def quotes(request):
-    # get the search query from the GET parameters
+    # get the search query and status filter from the GET parameters
     search_query = request.GET.get("search", "")
+    # Default status filter to 'Open' if not provided or empty
+    status_filter = request.GET.get("status", "Open")
+    if not status_filter: # Handle case where status parameter is present but empty
+        status_filter = "Open"
 
     # Start with all quotes
     queryset = Quote.objects.all()
+
+    # Apply status filter if a specific status is selected (and not 'all')
+    if status_filter != "all":
+        queryset = queryset.filter(status=status_filter)
 
     # Apply search if there is a search query
     if search_query:
@@ -57,13 +65,19 @@ def quotes(request):
             | Q(sales_rep__icontains=search_query)
         )
     queryset = queryset.order_by("quote_num")
+
+    # Get distinct statuses for the filter dropdown
+    statuses = Quote.objects.values_list('status', flat=True).distinct().order_by('status')
+
     paginator = Paginator(queryset, 25)
     # Get the page number from the request
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {
-        "quotes": queryset,
+        "quotes": page_obj, # Pass the paginated page object
         "search_query": search_query,
+        "statuses": statuses, # Pass the list of statuses
+        "selected_status": status_filter, # Pass the selected status
     }
 
     return render(request, "quotes.html", context)

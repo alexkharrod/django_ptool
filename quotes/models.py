@@ -75,5 +75,8 @@ class Quote(models.Model):
     status = models.CharField(max_length=50)
     date_created = models.DateTimeField(default=now, null=False, blank=False)
 
+    air_transit_time = models.CharField(max_length=50, default="7-10 days")
+    ocean_transit_time = models.CharField(max_length=50, default="~6 weeks")
+
     def __str__(self):
         return self.quote_num
