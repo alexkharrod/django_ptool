@@ -63,3 +63,23 @@ static/images/WC56.jpg
 static/images/wc57.jpg
 static/images backup 4-20-25.zip
 static/images.zip
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Django
+*.sqlite3
+instance/
+media/
+.env
+.env.*
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# macOS
+.DS_Store

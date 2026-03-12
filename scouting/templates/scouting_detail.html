@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block title %}{{ prospect.product_name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 900px;">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <a href="{% url 'scouting_list' %}" class="text-muted small">
+                <i class="bi bi-arrow-left me-1"></i>Back to Scouting
+            </a>
+            <h2 class="mt-1 mb-0">{{ prospect.product_name }}</h2>
+            <p class="text-muted mb-0">{{ prospect.vendor_name }} &middot; {{ prospect.show_name }}</p>
+        </div>
+        <div class="d-flex gap-2 flex-wrap justify-content-end">
+            <span class="badge fs-6
+                {% if prospect.status == 'Spotted' %}bg-secondary
+                {% elif prospect.status == 'Sample Ordered' %}bg-info text-dark
+                {% elif prospect.status == 'Evaluating' %}bg-warning text-dark
+                {% elif prospect.status == 'Adding' %}bg-success
+                {% elif prospect.status == 'Rejected' %}bg-danger
+                {% endif %}">
+                {{ prospect.status }}
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Image -->
+        <div class="col-md-5">
+            {% if prospect.image %}
+            <img src="{{ prospect.image.url }}" class="img-fluid rounded shadow-sm w-100"
+                 alt="{{ prospect.product_name }}" style="max-height: 380px; object-fit: cover;">
+            {% else %}
+            <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                 style="height: 280px;">
+                <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Details -->
+        <div class="col-md-7">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+
+                    <h5 class="card-title mb-3">Product Details</h5>
+                    <table class="table table-sm table-borderless mb-0">
+                        <tbody>
+                            {% if prospect.unit_cost %}
+                            <tr>
+                                <th class="text-muted fw-normal" style="width:40%">Unit Cost</th>
+                                <td><strong>{{ prospect.unit_cost }}</strong></td>
+                            </tr>
+                            {% endif %}
+                            {% if prospect.colors %}
+                            <tr>
+                                <th class="text-muted fw-normal">Colors</th>
+                                <td>{{ prospect.colors }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if prospect.lead_time %}
+                            <tr>
+                                <th class="text-muted fw-normal">Lead Time</th>
+                                <td>{{ prospect.lead_time }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if prospect.description %}
+                            <tr>
+                                <th class="text-muted fw-normal">Description</th>
+                                <td>{{ prospect.description }}</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+
+                    {% if prospect.notes %}
+                    <hr>
+                    <h6 class="text-muted">Notes</h6>
+                    <p class="mb-0">{{ prospect.notes }}</p>
+                    {% endif %}
+
+                    <hr>
+                    <h5 class="mb-3">Vendor</h5>
+                    <table class="table table-sm table-borderless mb-0">
+                        <tbody>
+                            <tr>
+                                <th class="text-muted fw-normal" style="width:40%">Company</th>
+                                <td>{{ prospect.vendor_name }}</td>
+                            </tr>
+                            {% if prospect.vendor_contact %}
+                            <tr>
+                                <th class="text-muted fw-normal">Contact</th>
+                                <td>{{ prospect.vendor_contact }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if prospect.vendor_email %}
+                            <tr>
+                                <th class="text-muted fw-normal">Email</th>
+                                <td><a href="mailto:{{ prospect.vendor_email }}">{{ prospect.vendor_email }}</a></td>
+                            </tr>
+                            {% endif %}
+                            {% if prospect.vendor_website %}
+                            <tr>
+                                <th class="text-muted fw-normal">Website</th>
+                                <td>
+                                    <a href="{{ prospect.vendor_website }}" target="_blank">
+                                        {{ prospect.vendor_website }}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <th class="text-muted fw-normal">Show</th>
+                                <td>{{ prospect.show_name }}
+                                    {% if prospect.show_date %}
+                                    &middot; {{ prospect.show_date }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action bar -->
+    <div class="d-flex gap-2 mt-4 flex-wrap">
+        <a href="{% url 'scouting_edit' prospect.pk %}" class="btn btn-outline-secondary">
+            <i class="bi bi-pencil me-1"></i>Edit
+        </a>
+        {% if not prospect.promoted %}
+        <a href="{% url 'scouting_promote' prospect.pk %}" class="btn btn-success">
+            <i class="bi bi-arrow-up-circle me-1"></i>Promote to Product
+        </a>
+        {% else %}
+        <div class="alert alert-success py-2 px-3 mb-0">
+            <i class="bi bi-check-circle me-1"></i>
+            Promoted to product <strong>{{ prospect.promoted_sku }}</strong>
+        </div>
+        {% endif %}
+        <a href="{% url 'scouting_list' %}" class="btn btn-outline-secondary ms-auto">
+            <i class="bi bi-arrow-left me-1"></i>Back
+        </a>
+    </div>
+
+    <!-- Meta -->
+    <p class="text-muted small mt-3">
+        Added {{ prospect.date_added|date:"N j, Y" }} &middot;
+        Updated {{ prospect.date_updated|date:"N j, Y" }}
+    </p>
+
+</div>
+{% endblock %}

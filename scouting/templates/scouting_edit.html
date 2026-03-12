@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}Edit — {{ prospect.product_name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 800px;">
+    <a href="{% url 'scouting_detail' prospect.pk %}" class="text-muted small">
+        <i class="bi bi-arrow-left me-1"></i>Back to Prospect
+    </a>
+    <h2 class="mt-2 mb-4">Edit: {{ prospect.product_name }}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Show Info -->
+        <div class="card mb-3 shadow-sm">
+            <div class="card-header bg-primary text-white fw-semibold">
+                <i class="bi bi-geo-alt me-1"></i>Show / Event
+            </div>
+            <div class="card-body row g-3">
+                <div class="col-md-8">
+                    <label class="form-label">{{ form.show_name.label }}</label>
+                    {{ form.show_name|add_class:"form-control" }}
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">{{ form.show_date.label }}</label>
+                    {{ form.show_date }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Vendor Info -->
+        <div class="card mb-3 shadow-sm">
+            <div class="card-header bg-secondary text-white fw-semibold">
+                <i class="bi bi-building me-1"></i>Vendor
+            </div>
+            <div class="card-body row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.vendor_name.label }}</label>
+                    {{ form.vendor_name|add_class:"form-control" }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.vendor_contact.label }}</label>
+                    {{ form.vendor_contact|add_class:"form-control" }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.vendor_email.label }}</label>
+                    {{ form.vendor_email|add_class:"form-control" }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.vendor_website.label }}</label>
+                    {{ form.vendor_website|add_class:"form-control" }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="card mb-3 shadow-sm">
+            <div class="card-header bg-info text-dark fw-semibold">
+                <i class="bi bi-box-seam me-1"></i>Product
+            </div>
+            <div class="card-body row g-3">
+                <div class="col-md-8">
+                    <label class="form-label">{{ form.product_name.label }}</label>
+                    {{ form.product_name|add_class:"form-control" }}
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">{{ form.unit_cost.label }}</label>
+                    {{ form.unit_cost|add_class:"form-control" }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.colors.label }}</label>
+                    {{ form.colors|add_class:"form-control" }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.lead_time.label }}</label>
+                    {{ form.lead_time|add_class:"form-control" }}
+                </div>
+                <div class="col-12">
+                    <label class="form-label">{{ form.description.label }}</label>
+                    {{ form.description }}
+                </div>
+                <div class="col-12">
+                    <label class="form-label">{{ form.notes.label }}</label>
+                    {{ form.notes }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.image.label }}</label>
+                    {% if prospect.image %}
+                    <div class="mb-2">
+                        <img src="{{ prospect.image.url }}" alt="Current"
+                             style="height: 80px; object-fit: cover;" class="rounded">
+                        <span class="text-muted small ms-2">Current photo</span>
+                    </div>
+                    {% endif %}
+                    {{ form.image|add_class:"form-control" }}
+                    <div class="form-text">Leave blank to keep existing photo.</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">{{ form.status.label }}</label>
+                    {{ form.status|add_class:"form-select" }}
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save me-1"></i>Save Changes
+            </button>
+            <a href="{% url 'scouting_detail' prospect.pk %}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
