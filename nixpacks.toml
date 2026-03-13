@@ -1,11 +1,13 @@
 [phases.setup]
-nixPkgs = [
-    "glib",
-    "pango",
-    "cairo",
-    "gdk-pixbuf",
-    "harfbuzz",
+aptPkgs = [
+    "libglib2.0-0",
+    "libpango-1.0-0",
+    "libpangoft2-1.0-0",
+    "libpangocairo-1.0-0",
+    "libgdk-pixbuf2.0-0",
+    "libffi-dev",
+    "libcairo2",
+    "libharfbuzz0b",
     "fontconfig",
-    "freetype",
-    "libffi"
+    "libfreetype6"
 ]

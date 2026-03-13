@@ -8,7 +8,6 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from weasyprint import HTML
 
 from .forms import CreateProductForm
 from .models import Product
@@ -84,6 +83,8 @@ def add_product(request):
 
 
 def npds(request, product_id):
+    from weasyprint import HTML  # lazy import — avoids crash if system libs missing at startup
+
     product = get_object_or_404(Product, id=product_id)
 
     # Get the absolute path for the image
