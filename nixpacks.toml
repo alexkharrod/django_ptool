@@ -1,6 +1,6 @@
 [phases.setup]
 nixPkgs = [
-    "gobject-introspection",
+    "glib",
     "pango",
     "cairo",
     "gdk-pixbuf",
