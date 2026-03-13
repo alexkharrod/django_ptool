@@ -11,7 +11,6 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.timezone import now
-from weasyprint import HTML
 
 from .forms import CreateQuoteForm
 from .models import Quote
@@ -119,6 +118,7 @@ def create_quote(request):
 
 
 def quote_pdf(request, quote_id):
+    from weasyprint import HTML  # lazy import — avoids crash if system libs missing at startup
     quote = Quote.objects.get(id=quote_id)
 
     # Get the absolute path for the image
