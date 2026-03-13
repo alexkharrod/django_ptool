@@ -1,11 +1,11 @@
 import base64
 import os
-from pathlib import Path
 
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from weasyprint import HTML
@@ -13,19 +13,14 @@ from weasyprint import HTML
 from .forms import CreateProductForm
 from .models import Product
 
-# Create your views here.
 
-
-# home view
-def home(request):
-    return render(request, "index.html")
-
-
+@login_required
 def view_product(request, pk):
-    product = Product.objects.get(pk=pk)
+    product = get_object_or_404(Product, pk=pk)
     return render(request, "view_product.html", {"product": product})
 
 
+@login_required
 def edit_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == "POST":
@@ -38,19 +33,16 @@ def edit_product(request, pk):
     return render(request, "edit_product.html", {"form": form, "product": product})
 
 
+@login_required
 def products(request):
-    # Get the search query and status filter from GET parameters
     search_query = request.GET.get("search", "")
-    status_filter = request.GET.get("status", "Open")  # Default to 'Open'
+    status_filter = request.GET.get("status", "Open")
 
-    # Start with all products
     queryset = Product.objects.all()
 
-    # Apply status filter
     if status_filter:
         queryset = queryset.filter(status=status_filter)
 
-    # Apply search if there is a search query
     if search_query:
         queryset = queryset.filter(
             Q(sku__icontains=search_query)
@@ -58,40 +50,49 @@ def products(request):
             | Q(category__icontains=search_query)
         )
 
-    # Order by SKU or any other field you prefer
     queryset = queryset.order_by("sku")
 
+    paginator = Paginator(queryset, 25)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        "products": queryset,
+        "products": page_obj,
         "search_query": search_query,
         "status_filter": status_filter,
+        "status_choices": Product.STATUS_CHOICES,
     }
 
     return render(request, "products.html", context)
 
 
+@login_required
 def add_product(request):
     if request.method == "POST":
         form = CreateProductForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             product = form.save()
             return redirect("view_product", pk=product.pk)
-
     else:
         form = CreateProductForm()
     return render(request, "add_product.html", {"form": form})
 
 
+@login_required
 def npds(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
-    # Get the absolute path for the image
-    image_path = os.path.join(settings.BASE_DIR, "static", "images", product.image_url)
+    # Sanitize filename to prevent directory traversal attacks
+    image_filename = os.path.basename(product.image_url)
+    image_path = os.path.join(settings.BASE_DIR, "static", "images", image_filename)
 
-    # Read and encode the image
-    with open(image_path, "rb") as img_file:
-        encoded_image = base64.b64encode(img_file.read()).decode("utf-8")
+    encoded_image = ""
+    if os.path.exists(image_path):
+        try:
+            with open(image_path, "rb") as img_file:
+                encoded_image = base64.b64encode(img_file.read()).decode("utf-8")
+        except OSError:
+            encoded_image = ""
 
     context = {"product": product, "encoded_image": encoded_image}
 

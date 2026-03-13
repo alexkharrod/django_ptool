@@ -3,6 +3,12 @@ from django.db import models
 
 # Create your models here.
 class Product(models.Model):
+    STATUS_CHOICES = [
+        ("Open", "Open"),
+        ("Added", "Added"),
+        ("Canceled", "Canceled"),
+    ]
+
     sku = models.CharField(max_length=20, unique=True, null=False)
     name = models.CharField(max_length=150)
     category = models.CharField(max_length=50)
@@ -45,4 +51,4 @@ class Product(models.Model):
     colors = models.CharField(max_length=150)
 
     # Product Status
-    status = models.CharField(max_length=50)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="Open")

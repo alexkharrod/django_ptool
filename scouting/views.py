@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -6,6 +7,7 @@ from .forms import ProspectForm
 from .models import Prospect
 
 
+@login_required
 def scouting_list(request):
     search_query = request.GET.get("search", "")
     status_filter = request.GET.get("status", "")
@@ -41,11 +43,13 @@ def scouting_list(request):
     return render(request, "scouting_list.html", context)
 
 
+@login_required
 def scouting_detail(request, pk):
     prospect = get_object_or_404(Prospect, pk=pk)
     return render(request, "scouting_detail.html", {"prospect": prospect})
 
 
+@login_required
 def scouting_add(request):
     if request.method == "POST":
         form = ProspectForm(request.POST, request.FILES)
@@ -61,6 +65,7 @@ def scouting_add(request):
     return render(request, "scouting_add.html", {"form": form})
 
 
+@login_required
 def scouting_edit(request, pk):
     prospect = get_object_or_404(Prospect, pk=pk)
     if request.method == "POST":
@@ -73,6 +78,7 @@ def scouting_edit(request, pk):
     return render(request, "scouting_edit.html", {"form": form, "prospect": prospect})
 
 
+@login_required
 def scouting_promote(request, pk):
     """Pre-fills the Add Product form with scouting data."""
     prospect = get_object_or_404(Prospect, pk=pk)
