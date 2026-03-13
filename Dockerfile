@@ -21,4 +21,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD python manage.py collectstatic --noinput && python manage.py migrate && gunicorn mysite.wsgi --log-file - --workers 2 --bind 0.0.0.0:$PORT
+CMD python manage.py collectstatic --noinput && python manage.py migrate && (python manage.py createsuperuser --noinput 2>/dev/null || true) && gunicorn mysite.wsgi --log-file - --workers 2 --bind 0.0.0.0:$PORT
