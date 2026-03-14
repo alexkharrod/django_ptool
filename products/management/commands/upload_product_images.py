@@ -94,15 +94,27 @@ class Command(BaseCommand):
                 ok += 1
                 continue
 
-            # Read file and save into the ImageField
+            # Skip non-image files (e.g. PDFs accidentally stored as image_url)
+            ext = os.path.splitext(filename)[1].lower()
+            if ext not in (".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"):
+                self.stdout.write(
+                    self.style.WARNING(
+                        f"  SKIP  {product.sku}: '{filename}' is not an image file"
+                    )
+                )
+                skipped += 1
+                continue
+
+            # Read file and upload to Cloudinary via the ImageField
             with open(image_path, "rb") as f:
                 data = f.read()
 
-            # Use just the base filename as the stored name
-            # Django/Cloudinary will deduplicate if needed
+            # Upload to Cloudinary storage (save=False so compress_image in model.save() is NOT triggered)
             product.image.save(filename, ContentFile(data), save=False)
-            # Call full save() so compress_image runs and Cloudinary receives the file
-            product.save()
+            # Use queryset .update() to write the image name directly to the DB,
+            # bypassing the model's save() override (which would try to re-download
+            # the file from Cloudinary for compression — causing a 401 error).
+            Product.objects.filter(pk=product.pk).update(image=product.image.name)
 
             self.stdout.write(
                 self.style.SUCCESS(
