@@ -30,7 +30,7 @@ def view_quote(request, pk):
 def edit_quote(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
     if request.method == "POST":
-        form = CreateQuoteForm(request.POST, instance=quote)
+        form = CreateQuoteForm(request.POST, request.FILES, instance=quote)
         if form.is_valid():
             form.save()
             return redirect("view_quote", pk=quote.pk)
@@ -84,7 +84,7 @@ def quotes(request):
 
 def create_quote(request):
     if request.method == "POST":
-        form = CreateQuoteForm(request.POST)
+        form = CreateQuoteForm(request.POST, request.FILES)
         if form.is_valid():
             quote = form.save()
             messages.success(request, "Quote created successfully!")
@@ -118,15 +118,26 @@ def create_quote(request):
 
 
 def quote_pdf(request, quote_id):
+    import urllib.request
     from weasyprint import HTML  # lazy import — avoids crash if system libs missing at startup
+
     quote = Quote.objects.get(id=quote_id)
 
-    # Get the absolute path for the image
-    image_path = os.path.join(settings.BASE_DIR, "static", "images", quote.image_url)
-
-    # Read and encode the image
-    with open(image_path, "rb") as img_file:
-        encoded_image = base64.b64encode(img_file.read()).decode("utf-8")
+    encoded_image = ""
+    if quote.image:
+        # Fetch image from Cloudinary (or local media) URL
+        image_url = quote.image.url
+        # If URL is relative (local dev), make it absolute
+        if image_url.startswith("/"):
+            image_url = request.build_absolute_uri(image_url)
+        with urllib.request.urlopen(image_url) as resp:
+            encoded_image = base64.b64encode(resp.read()).decode("utf-8")
+    elif quote.image_url and not quote.image_url.startswith("http"):
+        # Fallback: read from static/images/ for quotes not yet migrated
+        image_path = os.path.join(settings.BASE_DIR, "static", "images", quote.image_url)
+        if os.path.isfile(image_path):
+            with open(image_path, "rb") as img_file:
+                encoded_image = base64.b64encode(img_file.read()).decode("utf-8")
 
     context = {"quote": quote, "encoded_image": encoded_image}
 

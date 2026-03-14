@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container mt-4">
     <h1 class="mb-4">Add Product</h1>
-    <form method="post" class="needs-validation" novalidate>
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
         {% csrf_token %}
 
         <div class="row">
@@ -34,8 +34,8 @@
                 {{ form.package|add_class:"form-control" }}
             </div>
             <div class="col-md-4">
-                <label for="id_package" class="form-label">Image Filename</label>
-                {{ form.image_url|add_class:"form-control" }}
+                <label for="id_image" class="form-label">Product Image</label>
+                {{ form.image }}
             </div>
         </div>
 

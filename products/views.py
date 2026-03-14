@@ -28,7 +28,7 @@ def view_product(request, pk):
 def edit_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == "POST":
-        form = CreateProductForm(request.POST, instance=product)
+        form = CreateProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
             return redirect("view_product", pk=product.pk)
@@ -71,9 +71,8 @@ def products(request):
 
 def add_product(request):
     if request.method == "POST":
-        form = CreateProductForm(request.POST)
+        form = CreateProductForm(request.POST, request.FILES)
         if form.is_valid():
-            print(form.cleaned_data)
             product = form.save()
             return redirect("view_product", pk=product.pk)
 
@@ -87,12 +86,22 @@ def npds(request, product_id):
 
     product = get_object_or_404(Product, id=product_id)
 
-    # Get the absolute path for the image
-    image_path = os.path.join(settings.BASE_DIR, "static", "images", product.image_url)
-
-    # Read and encode the image
-    with open(image_path, "rb") as img_file:
-        encoded_image = base64.b64encode(img_file.read()).decode("utf-8")
+    encoded_image = ""
+    if product.image:
+        # Fetch image from Cloudinary (or local media) URL
+        import urllib.request
+        image_url = product.image.url
+        # If URL is relative (local dev), make it absolute
+        if image_url.startswith("/"):
+            image_url = request.build_absolute_uri(image_url)
+        with urllib.request.urlopen(image_url) as resp:
+            encoded_image = base64.b64encode(resp.read()).decode("utf-8")
+    elif product.image_url:
+        # Fallback: read from static/images/ for products not yet migrated
+        image_path = os.path.join(settings.BASE_DIR, "static", "images", product.image_url)
+        if os.path.isfile(image_path):
+            with open(image_path, "rb") as img_file:
+                encoded_image = base64.b64encode(img_file.read()).decode("utf-8")
 
     context = {"product": product, "encoded_image": encoded_image}
 

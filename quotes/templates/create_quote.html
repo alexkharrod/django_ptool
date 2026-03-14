@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container mt-4">
     <h1 class="mb-4 text-center">Create a Quote</h1>
-    <form method="post" class="needs-validation" novalidate>
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
         {% csrf_token %}
 
         <!-- Section 1: General Quote Details -->
@@ -46,8 +46,8 @@
                 {{ form.category|add_class:"form-control" }}
             </div>
             <div class="col-md-6">
-                <label for="id_image_url" class="form-label">Product Image URL</label>
-                {{ form.image_url|add_class:"form-control" }}
+                <label for="id_image" class="form-label">Product Image</label>
+                {{ form.image }}
             </div>
         </div>
         <div class="row g-3 mb-3">

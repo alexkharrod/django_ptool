@@ -12,11 +12,15 @@
             <h1>Edit Product: {{ product.name }}</h1>
         </div>
         <div class="col-md-4 text-end">
-            <img src="{% static 'images/image_url' %}" alt="Product Image" class="img-fluid" style="max-height: 150px;">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="Product Image" class="img-fluid" style="max-height: 150px;">
+            {% elif product.image_url %}
+            <img src="{% static 'images/' %}{{ product.image_url }}" alt="Product Image" class="img-fluid" style="max-height: 150px;">
+            {% endif %}
         </div>
     </div>
 
-    <form method="post" class="needs-validation" novalidate>
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
         {% csrf_token %}
 
         <div class="row">
@@ -44,8 +48,8 @@
                 {{ form.package|add_class:"form-control" }}
             </div>
             <div class="col-md-4">
-                <label for="id_package" class="form-label">Image Filename</label>
-                {{ form.image_url|add_class:"form-control" }}
+                <label for="id_image" class="form-label">Product Image</label>
+                {{ form.image }}
             </div>
         </div>
 

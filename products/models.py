@@ -1,4 +1,32 @@
+import os
+from io import BytesIO
+
+from django.core.files.base import ContentFile
 from django.db import models
+
+
+def compress_image(image_field, max_width=800, quality=72):
+    """Resize and compress an image in-place. Converts to JPEG."""
+    from PIL import Image
+
+    img = Image.open(image_field)
+
+    # Convert palette/transparency modes to RGB for JPEG
+    if img.mode in ("RGBA", "P", "LA"):
+        img = img.convert("RGB")
+    elif img.mode != "RGB":
+        img = img.convert("RGB")
+
+    # Resize if wider than max_width
+    if img.width > max_width:
+        ratio = max_width / img.width
+        new_height = int(img.height * ratio)
+        img = img.resize((max_width, new_height), Image.LANCZOS)
+
+    output = BytesIO()
+    img.save(output, format="JPEG", quality=quality, optimize=True)
+    output.seek(0)
+    return output.read()
 
 
 # Create your models here.
@@ -6,7 +34,8 @@ class Product(models.Model):
     sku = models.CharField(max_length=20, unique=True, null=False)
     name = models.CharField(max_length=150)
     category = models.CharField(max_length=50)
-    image_url = models.CharField(max_length=200)
+    image_url = models.CharField(max_length=200, blank=True)
+    image = models.ImageField(upload_to="products/", null=True, blank=True)
     moq = models.IntegerField()
     package = models.CharField(max_length=50)
     production_time = models.CharField(max_length=50)
@@ -46,3 +75,27 @@ class Product(models.Model):
 
     # Product Status
     status = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.sku} — {self.name}"
+
+    def save(self, *args, **kwargs):
+        # Compress image on first upload or when image changes
+        if self.image and not self._is_existing_image():
+            original_name = os.path.splitext(
+                os.path.basename(self.image.name)
+            )[0]
+            compressed = compress_image(self.image)
+            new_name = f"{original_name}.jpg"
+            self.image.save(new_name, ContentFile(compressed), save=False)
+        super().save(*args, **kwargs)
+
+    def _is_existing_image(self):
+        """Returns True if this image is already stored (no re-compression needed)."""
+        if not self.pk:
+            return False
+        try:
+            old = Product.objects.get(pk=self.pk)
+            return old.image == self.image
+        except Product.DoesNotExist:
+            return False
