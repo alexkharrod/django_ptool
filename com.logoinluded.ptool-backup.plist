@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <key>Label</key>
+    <string>com.logoinluded.ptool-backup</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/alex/PythonProjects/django_ptool/ptool/backup_db.sh</string>
+    </array>
+
+    <!-- Run daily at 9:00 AM. If Mac was asleep, runs on next wake. -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/Users/alex/Library/Logs/ptool_backup.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/alex/Library/Logs/ptool_backup.log</string>
+
+    <!-- Run immediately if a scheduled fire was missed (e.g. Mac was off) -->
+    <key>RunAtLoad</key>
+    <false/>
+
+</dict>
+</plist>
