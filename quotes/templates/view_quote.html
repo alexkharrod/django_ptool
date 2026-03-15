@@ -39,7 +39,9 @@
             
                 <!-- Image Section -->
                 <div class="col-md-4 text-end">
-                    <img src="{% static 'images/' %}{{quote.image_url }}" alt="Product Image" class="img-fluid rounded" style="max-width: 400px; height: auto;">
+                    {% if quote.image %}
+                    <img src="{{ quote.image.url }}" alt="Product Image" class="img-fluid rounded" style="max-width: 400px; height: auto;">
+                    {% endif %}
                 </div>
             </div>
 

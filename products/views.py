@@ -8,7 +8,6 @@ from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from weasyprint import HTML
 
 from .forms import CreateProductForm
 from .models import Product
@@ -24,7 +23,7 @@ def view_product(request, pk):
 def edit_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == "POST":
-        form = CreateProductForm(request.POST, instance=product)
+        form = CreateProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
             return redirect("view_product", pk=product.pk)
@@ -69,7 +68,7 @@ def products(request):
 @login_required
 def add_product(request):
     if request.method == "POST":
-        form = CreateProductForm(request.POST)
+        form = CreateProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save()
             return redirect("view_product", pk=product.pk)
@@ -80,19 +79,26 @@ def add_product(request):
 
 @login_required
 def npds(request, product_id):
+    from weasyprint import HTML  # lazy import — avoids crash if system libs missing at startup
+
     product = get_object_or_404(Product, id=product_id)
 
-    # Sanitize filename to prevent directory traversal attacks
-    image_filename = os.path.basename(product.image_url)
-    image_path = os.path.join(settings.BASE_DIR, "static", "images", image_filename)
-
     encoded_image = ""
-    if os.path.exists(image_path):
-        try:
+    if product.image:
+        # Fetch image from Cloudinary (or local media) URL
+        import urllib.request
+        image_url = product.image.url
+        # If URL is relative (local dev), make it absolute
+        if image_url.startswith("/"):
+            image_url = request.build_absolute_uri(image_url)
+        with urllib.request.urlopen(image_url) as resp:
+            encoded_image = base64.b64encode(resp.read()).decode("utf-8")
+    elif product.image_url:
+        # Fallback: read from static/images/ for products not yet migrated
+        image_path = os.path.join(settings.BASE_DIR, "static", "images", product.image_url)
+        if os.path.isfile(image_path):
             with open(image_path, "rb") as img_file:
                 encoded_image = base64.b64encode(img_file.read()).decode("utf-8")
-        except OSError:
-            encoded_image = ""
 
     context = {"product": product, "encoded_image": encoded_image}
 
